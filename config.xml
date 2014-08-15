@@ -16,8 +16,7 @@
     </author>
 
     <preference name="permissions" value="none"/>
-    <preference name="Fullscreen" value="true" />
-    <preference name="Orientation" value="portrait" />
+    <preference name="fullscreen" value="true" />
 
     <gap:plugin name="org.apache.cordova.media"/>
 </widget>

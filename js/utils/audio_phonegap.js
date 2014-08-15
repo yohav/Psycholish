@@ -5,7 +5,7 @@ Player = function(words,play_button,loading){
     this.words = words.split(" ");
     this.numOfWords = this.words.length;
     this.count = 0;
-    this.audio = new Media("",this.nextAudio,this.errorFallback);
+    this.audio = new Media("",this.nextAudio,this.errorFallback,this.status);
     this.nextAudio = function(){
         if($this.count >= $this.numOfWords){
             play_button.show();
@@ -15,6 +15,12 @@ Player = function(words,play_button,loading){
         else {
             var current_word = $this.words[$this.count];
              $this.play_word(current_word);
+        }
+    }
+    this.status = function(s){
+        if(s==4){
+            play_button.show();
+            loading.hide();
         }
     }
     this.errorFallback = function(){
