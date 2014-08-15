@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget id          = "org.melman.psycholish"
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "org.melman.psycholish"
         versionCode = "10"
         version     = "1.1.0">
 
@@ -12,9 +14,10 @@
     <author email="yohav3@gmail.com">
         Yoav Melman
     </author>
+
+    <preference name="permissions" value="none"/>
     <preference name="Fullscreen" value="true" />
     <preference name="Orientation" value="portrait" />
-    <feature name="Media">
-        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
-    </feature>
+
+    <gap:plugin name="org.apache.cordova.media"/>
 </widget>
