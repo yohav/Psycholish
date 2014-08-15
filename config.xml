@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget id          = "org.melman.psycholish"
+        versionCode = "10"
+        version     = "1.1.0">
+
+    <name>Psycholish</name>
+
+    <description>
+        English Dictionary for the Psychometric Entrance Test
+    </description>
+
+    <author email="yohav3@gmail.com">
+        Yoav Melman
+    </author>
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+</widget>
