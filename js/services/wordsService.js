@@ -8,7 +8,7 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
             });
 
             var deferred = $q.defer();
-            var url = 'http://psycholish.uphero.com/controllers/WordsController.php?letter=';
+            var url = 'controllers/WordsController.php?letter=';
 
             url += $stateParams.letter.toLowerCase();
             $http.get(url)
