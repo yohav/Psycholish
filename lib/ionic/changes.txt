@@ -1,0 +1,2 @@
+35998- to fix empty item
+40573 - current.classList.contains('toggle')|| - support toggle in nav bar
