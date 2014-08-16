@@ -11,7 +11,7 @@ Player = function(words,play_button,loading){
                         function(status){
                             if(status == 4){
                                 navigator.notification.alert('status is 4');
-                                this.nextAudio();
+                                $this.nextAudio();
                             }
                             else
                             {
