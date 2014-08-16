@@ -7,17 +7,7 @@ Player = function(words,play_button,loading){
     this.count = 0;
     this.audio = new Media("",
                         function(){
-                            navigator.notification.alert("in success");
-                        },
-                        function(err){
-                            navigator.notification.alert('error');
-                            navigator.notification.alert(err.message);
-                            $this.errorFallback();
-                        },
-                        function(status){
-                            if(status == 4){
-                                $this.nextAudio();
-                            }
+                            $this.nextAudio();
                         });
     this.nextAudio = function(){
         navigator.notification.alert('in next audio');
@@ -51,7 +41,9 @@ Player = function(words,play_button,loading){
     this.playV1 = function(word){
         var soundUrl = 'https://ssl.gstatic.com/dictionary/static/sounds/de/0/'+word+'.mp3';
         this.play_url(soundUrl);
-        $this.audio.onerror = function(){
+        $this.audio.mediaError = function(err){
+            navigator.notification.alert('error1');
+            navigator.notification.alert(err.message);
             $this.playV2(word);
         }
 
@@ -59,7 +51,9 @@ Player = function(words,play_button,loading){
     this.playV2 = function(word){
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
         this.play_url(soundUrl);
-        $this.audio.onerror = function(){
+        $this.audio.mediaError = function(err){
+            navigator.notification.alert('error2');
+            navigator.notification.alert(err.message);
             $this.playV3(word);
         }
     }
@@ -67,7 +61,9 @@ Player = function(words,play_button,loading){
         word = capitalize(word);
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
         this.play_url(soundUrl);
-        $this.audio.onerror = function(){
+        $this.audio.mediaError = function(err){
+            navigator.notification.alert('error3');
+            navigator.notification.alert(err.message);
             play_button.show();
             loading.hide();
         }
