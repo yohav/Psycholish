@@ -5,9 +5,8 @@ Player = function(words,play_button,loading){
     this.words = words.split(" ");
     this.numOfWords = this.words.length;
     this.count = 0;
-    this.audio = new Media("",this.nextAudio,this.errorFallback,function(state){navigator.notification.alert(state);});
+    this.audio = new Media("",this.nextAudio,this.errorFallback,this.audioStatus);
     this.nextAudio = function(){
-        navigator.notification.alert("success");
         if($this.count >= $this.numOfWords){
             play_button.show();
             loading.hide();
@@ -19,9 +18,13 @@ Player = function(words,play_button,loading){
         }
     }
     this.errorFallback = function(err){
-        navigator.notification.alert(err);
         play_button.show();
         loading.hide();
+    }
+    this.audioStatus = function(status){
+        if(status == 4){
+            this.nextAudio();
+        }
     }
     this.play = function(){
         this.play_word(this.words[0]);
