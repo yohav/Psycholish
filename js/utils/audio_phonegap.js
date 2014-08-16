@@ -5,7 +5,19 @@ Player = function(words,play_button,loading){
     this.words = words.split(" ");
     this.numOfWords = this.words.length;
     this.count = 0;
-    this.audio = new Media("",this.nextAudio,this.errorFallback,this.audioStatus);
+    this.audio = new Media("",
+                        this.nextAudio,
+                        this.errorFallback,
+                        function(status){
+                            if(status == 4){
+                                navigator.notification.alert('status is 4');
+                                this.nextAudio();
+                            }
+                            else
+                            {
+                                navigator.notification.alert('status is '+ status);
+                            }
+                    });
     this.nextAudio = function(){
         navigator.notification.alert('in next audio');
         if($this.count >= $this.numOfWords){
@@ -23,16 +35,6 @@ Player = function(words,play_button,loading){
     this.errorFallback = function(err){
         play_button.show();
         loading.hide();
-    }
-    this.audioStatus = function(status){
-        if(status == 4){
-            navigator.notification.alert('status is 4');
-            this.nextAudio();
-        }
-        else
-        {
-            navigator.notification.alert('status is '+ status);
-        }
     }
     this.play = function(){
         this.play_word(this.words[0]);
