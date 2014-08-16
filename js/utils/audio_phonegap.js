@@ -7,8 +7,7 @@ Player = function(words,play_button,loading){
     this.count = 0;
     this.audio = new Media("",this.nextAudio,this.errorFallback);
     this.nextAudio = function(){
-        play_button.show();
-        loading.hide();
+        alert("success");
         if($this.count >= $this.numOfWords){
             play_button.show();
             loading.hide();
@@ -19,7 +18,8 @@ Player = function(words,play_button,loading){
              $this.play_word(current_word);
         }
     }
-    this.errorFallback = function(){
+    this.errorFallback = function(err){
+        alert(err);
         play_button.show();
         loading.hide();
     }
