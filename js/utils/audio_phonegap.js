@@ -5,7 +5,7 @@ Player = function(words,play_button,loading){
     this.words = words.split(" ");
     this.numOfWords = this.words.length;
     this.count = 0;
-    this.audio = new Media("",this.nextAudio,this.errorFallback);
+    this.audio = new Media("",this.nextAudio,this.errorFallback,function(state){alert(state);});
     this.nextAudio = function(){
         alert("success");
         if($this.count >= $this.numOfWords){
