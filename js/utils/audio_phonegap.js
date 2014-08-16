@@ -14,7 +14,7 @@ Player = function(words,play_button,loading){
         if($this.count >= $this.numOfWords){
             play_button.show();
             loading.hide();
-            this.audio.release();
+            $this.audio.release();
         }
         else {
             var current_word = $this.words[$this.count];
