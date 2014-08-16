@@ -20,6 +20,6 @@
     <preference name="orientation" value="portrait" />
 
 
-    <gap:plugin name="org.apache.cordova.media"/>
+    <gap:plugin name="org.apache.cordova.media" version="0.2.9"/>
 
 </widget>
