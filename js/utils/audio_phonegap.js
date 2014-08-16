@@ -10,7 +10,7 @@ Player = function(words,play_button,loading){
                             $this.nextAudio();
                         });
     this.nextAudio = function(){
-        navigator.notification.alert('in next audio');
+        popup('in next audio');
         if($this.count >= $this.numOfWords){
             play_button.show();
             loading.hide();
@@ -22,7 +22,7 @@ Player = function(words,play_button,loading){
         }
     }
     this.errorFallback = function(){
-        navigator.notification.alert('in error fallback');
+        popup('in error fallback');
         play_button.show();
         loading.hide();
     }
@@ -40,32 +40,31 @@ Player = function(words,play_button,loading){
     }
     this.playV1 = function(word){
         var soundUrl = 'https://ssl.gstatic.com/dictionary/static/sounds/de/0/'+word+'.mp3';
-        this.play_url(soundUrl);
         $this.audio.mediaError = function(err){
-            navigator.notification.alert('error1');
-            navigator.notification.alert(err.message);
+            popup('error1');
+            popup(err.message);
             $this.playV2(word);
         }
-
+        this.play_url(soundUrl);
     }
     this.playV2 = function(word){
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
-        this.play_url(soundUrl);
         $this.audio.mediaError = function(err){
-            navigator.notification.alert('error2');
-            navigator.notification.alert(err.message);
+            popup('error2');
+            popup(err.message);
             $this.playV3(word);
         }
+        this.play_url(soundUrl);
     }
     this.playV3 = function(word){
         word = capitalize(word);
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
-        this.play_url(soundUrl);
         $this.audio.mediaError = function(err){
-            navigator.notification.alert('error3');
-            navigator.notification.alert(err.message);
+            popup('error3');
+            popup(err.message);
             play_button.show();
             loading.hide();
         }
+        this.play_url(soundUrl);
     }
 }

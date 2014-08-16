@@ -1,4 +1,4 @@
-psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
+psycholish.factory("wordsService", function ($q, $http,$ionicLoading,$cordovaFile) {
     return {
         getWords: function ($stateParams) {
             $ionicLoading.show({
@@ -6,6 +6,13 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
                 animation: 'fade-in',
                 noBackdrop: false
             });
+
+            var fileHandler = new FileHandler($cordovaFile);
+            fileHandler.getFile($stateParams.letter.toLowerCase()+".json");
+
+            fileHandler.saveFile($stateParams.letter.toLowerCase()+".json","this is a test");
+
+            fileHandler.getFile($stateParams.letter.toLowerCase()+".json");
 
             var deferred = $q.defer();
             var url = 'http://psycholish.uphero.com/controllers/WordsController.php?letter=';
