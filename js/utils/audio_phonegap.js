@@ -7,32 +7,28 @@ Player = function(words,play_button,loading){
     this.count = 0;
     this.audio = new Media("",
                         this.nextAudio,
-                        this.errorFallback,
+                        function(err){
+                            navigator.notification.alert(err);
+                            $this.errorFallback();
+                        },
                         function(status){
                             if(status == 4){
-                                navigator.notification.alert('status is 4');
                                 $this.nextAudio();
-                            }
-                            else
-                            {
-                                navigator.notification.alert('status is '+ status);
                             }
                     });
     this.nextAudio = function(){
         navigator.notification.alert('in next audio');
         if($this.count >= $this.numOfWords){
-            navigator.notification.alert('in if');
             play_button.show();
             loading.hide();
             this.audio.release();
         }
         else {
-            navigator.notification.alert('in else');
             var current_word = $this.words[$this.count];
              $this.play_word(current_word);
         }
     }
-    this.errorFallback = function(err){
+    this.errorFallback = function(){
         play_button.show();
         loading.hide();
     }
