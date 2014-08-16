@@ -18,10 +18,7 @@ Player = function(words,play_button,loading){
         }
     }
     this.status = function(s){
-        if(s==4){
-            play_button.show();
-            loading.hide();
-        }
+
     }
     this.errorFallback = function(){
         play_button.show();
@@ -36,8 +33,8 @@ Player = function(words,play_button,loading){
     }
     this.play_url = function(soundUrl){
         $this.audio.src = soundUrl;
-        $this.audio.play();
         $this.count++;
+        $this.audio.play();
     }
     this.playV1 = function(word){
         var soundUrl = 'https://ssl.gstatic.com/dictionary/static/sounds/de/0/'+word+'.mp3';

@@ -17,6 +17,11 @@
 
     <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true" />
+    <preference name="orientation" value="portrait" />
+
 
     <gap:plugin name="org.apache.cordova.media"/>
+    <gap:config-file platform="android" parent="/manifest">
+        <application android:debuggable="true" />
+    </gap:config-file>
 </widget>
