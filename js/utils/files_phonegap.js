@@ -1,5 +1,6 @@
 FileHandler = function($cordovaFile){
     var dataDir = cordova.file.dataDirectory;
+    popup(dataDir);
     this.getFile = function(file){
         popup('getFile');
         $cordovaFile.checkFile(dataDir, file).then(function(result) {

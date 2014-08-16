@@ -7,12 +7,16 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading,$cordovaFil
                 noBackdrop: false
             });
 
+            popup('in get words');
+            if($cordovaFile){
+                popup('good cordova inject');
+            }
             var fileHandler = new FileHandler($cordovaFile);
             fileHandler.getFile($stateParams.letter.toLowerCase()+".json");
 
-            fileHandler.saveFile($stateParams.letter.toLowerCase()+".json","this is a test");
+            //fileHandler.saveFile($stateParams.letter.toLowerCase()+".json","this is a test");
 
-            fileHandler.getFile($stateParams.letter.toLowerCase()+".json");
+            //fileHandler.getFile($stateParams.letter.toLowerCase()+".json");
 
             var deferred = $q.defer();
             var url = 'http://psycholish.uphero.com/controllers/WordsController.php?letter=';
