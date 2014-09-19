@@ -23,7 +23,10 @@
     <gap:plugin name="org.apache.cordova.media"/>
     <gap:plugin name="org.apache.cordova.dialogs"/>
     <gap:plugin name="org.apache.cordova.file"/>
-
+    <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.4.0">
+        <param name="APP_ID" value="1478282099110792" />
+        <param name="APP_NAME" value="Psycholish" />
+    </gap:plugin>
 
 
 </widget>

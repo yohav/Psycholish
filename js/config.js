@@ -39,12 +39,7 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'letters-tab': {
                     templateUrl: "words.html",
-                    controller: 'WordsCtrl',
-                    resolve: {
-                        words: function (wordsService, $stateParams,$ionicLoading) {
-                            return wordsService.getWords($stateParams);
-                        }
-                    }
+                    controller: 'WordsCtrl'
                 }
             }
         });

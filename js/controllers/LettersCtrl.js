@@ -1,4 +1,5 @@
-psycholish.controller('LettersCtrl', function ($scope) {
+psycholish.controller('LettersCtrl', function ($scope,facebookService) {
+    facebookService.Login();
     $scope.rows = [
         ["A", "B", "C", "D"],
         ["E", "F", "G", "H"],

@@ -23,7 +23,8 @@ class Queries
     private static function mysql_get_words($letter){
         $query = <<<SQL
                   SELECT word,definition
-                  FROM $letter
+                  FROM words
+                  WHERE letter='$letter'
 SQL;
         return DBConnection::get_instance()->query($query);
     }

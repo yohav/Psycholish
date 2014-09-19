@@ -1,27 +1,29 @@
-psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
-    return {
-        getWords: function ($stateParams) {
-            $ionicLoading.show({
-                template: '<i class="icon ion-loading-d" style="font-size: 32px"></i>',
-                animation: 'fade-in',
-                noBackdrop: false
+psycholish.factory("wordsService", function ($q, $http,$ionicLoading,$rootScope) {
+
+    var getWordsHTTP = function (letter) {
+        $ionicLoading.show({
+            template: '<i class="icon ion-loading-d" style="font-size: 32px"></i>',
+            animation: 'fade-in',
+            noBackdrop: false
+        });
+
+        var url = 'controllers/WordsController.php?letter=';
+
+        url += letter;
+        $http(
+            {
+                method: "get",
+                url: url,
+                cache: true
+            }
+        )
+
+            .success(function (data) {
+                $rootScope.$broadcast('getWordsHTTP',data)
+                $ionicLoading.hide();
             });
-
-            var fileHandler = new FileHandler();
-            fileHandler.getFile($stateParams.letter.toLowerCase());
-
-            var deferred = $q.defer();
-            var url = 'http://psycholish.uphero.com/controllers/WordsController.php?letter=';
-
-            url += $stateParams.letter.toLowerCase();
-            $http.get(url)
-
-                .success(function (data) {
-                    deferred.resolve(data);
-                    $ionicLoading.hide();
-
-                });
-            return deferred.promise;
-        }
+    }
+    return {
+        getWordsHTTP: getWordsHTTP
     };
 });

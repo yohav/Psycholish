@@ -1,10 +1,16 @@
-psycholish.controller('WordsCtrl', function ($scope, words, $stateParams) {
+psycholish.controller('WordsCtrl', function ($scope, $stateParams,wordsService) {
     $scope.letter = $stateParams.letter;
-    $.each(words, function (index, word) {
-        word["clicked"] = false;
+    wordsService.getWordsHTTP($scope.letter.toLowerCase());
+    $scope.$on('getWordsHTTP', function (event, data) {
+        $scope.words = data;
+        $.each($scope.words, function (index, word) {
+            word["clicked"] = false;
+            word["favorited"]= false;
+        });
     });
+
     $scope.allDefinitionsVisible = false;
-    $scope.words = words;
+
     $scope.play_sound = function (word,$event) {
         $event.stopPropagation();
         var play_button = $($event.currentTarget);
@@ -20,11 +26,15 @@ psycholish.controller('WordsCtrl', function ($scope, words, $stateParams) {
     }
     $scope.toggleAllDefinitions = function () {
         $scope.allDefinitionsVisible = !$scope.allDefinitionsVisible;
-        $.each(words, function (index, word) {
+        $.each($scope.words, function (index, word) {
             word["clicked"] = $scope.allDefinitionsVisible;
         });
         $.each($scope.words, function (index, word) {
             word["clicked"] = $scope.allDefinitionsVisible;
         });
+    }
+    $scope.toggleFavorite = function(word,$event){
+        $event.stopPropagation();
+        word.favorited = !word.favorited;
     }
 });

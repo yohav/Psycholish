@@ -10,15 +10,6 @@
     background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
     background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
 }
-
-.ion-play{
-    cursor: pointer;
-    margin-right: 10px;
-    line-height: 0px;
-    min-height: 0px;
-    min-width: 0px;
-}
-
 .definition{
     float:right;
 }
@@ -60,6 +51,13 @@ ion-item{
     height: 24px;
     float:left;
 }
+
+.favorite{
+font-size: 30px;
+    margin: -3px 8px 0px 0px;
+    float:left;
+}
+
 
 .word-p{
     float:left;
