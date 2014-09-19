@@ -4,5 +4,11 @@ function capitalize(word){
 
 
 function popup(message){
-    navigator.notification.alert(message);
+    if(navigator.notification){
+        navigator.notification.alert(message);
+    }
+    else
+    {
+        alert(message);
+    }
 }

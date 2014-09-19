@@ -192,7 +192,6 @@ var openFB = (function() {
 
     function runningInCordova() {
         popup('device:'+window.device);
-        popup('cordova:'+window.device.cordova);
         return window.device && window.device.cordova;
     };
 

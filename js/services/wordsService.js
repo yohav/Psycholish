@@ -7,7 +7,7 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading,$rootScope)
             noBackdrop: false
         });
 
-        var url = 'controllers/WordsController.php?letter=';
+        var url = 'http://psycholish.uphero.com/controllers/WordsController.php?letter=';
 
         url += letter;
         $http(
