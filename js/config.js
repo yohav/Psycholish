@@ -5,7 +5,15 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
             abstract: true,
             templateUrl: "tabs.html"
         })
-
+        .state('tabs.profile', {
+            url: "/profile",
+            views: {
+                'profile-tab': {
+                    templateUrl: "profile.html",
+                    controller: 'ProfileCtrl'
+                }
+            }
+        })
         .state('tabs.about', {
             url: "/about",
             views: {
