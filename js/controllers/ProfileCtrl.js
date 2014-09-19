@@ -10,7 +10,7 @@ psycholish.controller('ProfileCtrl', function ($scope,facebookService) {
         }
         facebookService.GetInfo(infoSuccess,infoFail);
     };
-    $scope.logged = (window.sessionStorage.fbtoken != "");
+    $scope.logged = window.sessionStorage.fbtoken != "undefined";
     if($scope.logged){
         $scope.updateInfo();
     }
