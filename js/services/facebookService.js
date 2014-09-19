@@ -6,7 +6,7 @@ psycholish.factory("facebookService", function () {
             failCallback);
     }
     var Init = function(){
-        openFB.init('1478282099110792');
+        openFB.init('1478282099110792','https://www.facebook.com/connect/login_success.html');
     }
 
     var GetInfo = function (successCallback,failCallback) {
