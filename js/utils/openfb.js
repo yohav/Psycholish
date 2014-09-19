@@ -62,7 +62,7 @@ var openFB = (function() {
                 oauthRedirectURL = 'https://www.facebook.com/connect/login_success.html';
             } else {
                 // Trying to calculate oauthRedirectURL based on the current URL.
-                var index = document.location.href.indexOf('index.html');
+                var index = document.location.href.indexOf('#');
                 if (index > 0) {
                     oauthRedirectURL = window.document.location.href.substring(0, index) + 'oauthcallback.html';
                 } else {
@@ -191,8 +191,10 @@ var openFB = (function() {
     }
 
     function runningInCordova() {
+        popup('device:'+window.device);
+        popup('cordova:'+window.device.cordova);
         return window.device && window.device.cordova;
-    }
+    };
 
     // The public API
     return {
