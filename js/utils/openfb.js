@@ -12,7 +12,7 @@ var openFB = (function() {
     var FB_LOGIN_URL = 'https://www.facebook.com/dialog/oauth',
 
         // By default we store fbtoken in sessionStorage. This can be overriden in init()
-        tokenStore = window.sessionStorage,
+        tokenStore = window.localStorage,
 
         fbAppId,
         oauthRedirectURL,
@@ -191,7 +191,6 @@ var openFB = (function() {
     }
 
     function runningInCordova() {
-        popup('device:'+window.device);
         return window.device && window.device.cordova;
     };
 

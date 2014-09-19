@@ -10,7 +10,6 @@ Player = function(words,play_button,loading){
                             $this.nextAudio();
                         });
     this.nextAudio = function(){
-        popup('in next audio');
         if($this.count >= $this.numOfWords){
             play_button.show();
             loading.hide();
@@ -22,7 +21,6 @@ Player = function(words,play_button,loading){
         }
     }
     this.errorFallback = function(){
-        popup('in error fallback');
         play_button.show();
         loading.hide();
     }
@@ -41,8 +39,6 @@ Player = function(words,play_button,loading){
     this.playV1 = function(word){
         var soundUrl = 'https://ssl.gstatic.com/dictionary/static/sounds/de/0/'+word+'.mp3';
         $this.audio.mediaError = function(err){
-            popup('error1');
-            popup(err.message);
             $this.playV2(word);
         }
         this.play_url(soundUrl);
@@ -50,8 +46,6 @@ Player = function(words,play_button,loading){
     this.playV2 = function(word){
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
         $this.audio.mediaError = function(err){
-            popup('error2');
-            popup(err.message);
             $this.playV3(word);
         }
         this.play_url(soundUrl);
@@ -60,8 +54,6 @@ Player = function(words,play_button,loading){
         word = capitalize(word);
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
         $this.audio.mediaError = function(err){
-            popup('error3');
-            popup(err.message);
             play_button.show();
             loading.hide();
         }
