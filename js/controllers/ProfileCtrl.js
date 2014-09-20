@@ -6,8 +6,8 @@ psycholish.controller('ProfileCtrl', function ($scope,facebookService,fileServic
             $scope.$apply();
             $scope.get_image();
         }
-        var infoFail = function(){
-            alert('info fail');
+        var infoFail = function(err){
+            alert('info fail: '+err);
         }
         facebookService.GetInfo(infoSuccess,infoFail);
     };
@@ -20,8 +20,8 @@ psycholish.controller('ProfileCtrl', function ($scope,facebookService,fileServic
             $scope.logged = true;
             $scope.updateInfo();
         }
-        var loginFail = function(){
-            alert('login fail');
+        var loginFail = function(err){
+            alert('login fail: '+err);
         }
         facebookService.Login(loginSuccess,loginFail);
     };
