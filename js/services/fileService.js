@@ -1,9 +1,10 @@
 psycholish.factory('fileService',function(){
 
-    var dataDir = cordova.file.dataDirectory;
-    popup(dataDir);
+
 
     var loadFile =  function(url,file_name){
+        var dataDir = cordova.file.dataDirectory;
+        popup(dataDir);
         window.resolveLocalFileSystemURL(dataDir + file_name, appStart, downloadAsset);
 
         function downloadAsset() {
