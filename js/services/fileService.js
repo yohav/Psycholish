@@ -3,11 +3,14 @@ psycholish.factory('fileService',function(){
 
 
     var loadFile =  function(url,file_name){
-        alert("cordova file:" +cordova.file);
-        var dataDir = cordova.file.dataDirectory;
-        alert(dataDir);
-        window.resolveLocalFileSystemURL(dataDir + file_name, appStart, downloadAsset);
+        document.addEventListener("deviceready", onDeviceReady, false);
 
+        function onDeviceReady() {
+            alert("cordova file:" +cordova.file);
+            var dataDir = cordova.file.dataDirectory;
+            alert(dataDir);
+            window.resolveLocalFileSystemURL(dataDir + file_name, appStart, downloadAsset);
+        }
         function downloadAsset() {
             var fileTransfer = new FileTransfer();
             console.log("About to start transfer");
