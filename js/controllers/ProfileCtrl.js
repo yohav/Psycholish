@@ -1,9 +1,10 @@
-psycholish.controller('ProfileCtrl', function ($scope,facebookService) {
+psycholish.controller('ProfileCtrl', function ($scope,facebookService,fileService) {
     $scope.updateInfo = function(){
         var infoSuccess = function(data){
             $scope.name = data.name;
             $scope.id = data.id;
             $scope.$apply();
+            $scope.get_image();
         }
         var infoFail = function(){
             alert('info fail');
@@ -28,4 +29,11 @@ psycholish.controller('ProfileCtrl', function ($scope,facebookService) {
         facebookService.Logout();
         $scope.logged = false;
     };
+
+    $scope.get_image = function(){
+        var url = "http://graph.facebook.com/"+$scope.id+"/picture?type=large";
+        var file_name = $scope.id + ".jpg";
+        fileService.LoadFile(url,file_name);
+
+    }
 });
