@@ -18,8 +18,7 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                     controller: 'WordsCtrl',
                     resolve:{
                         words: function(favoriteService){
-                            var user_id = window.localStorage.facebook_id;
-                            return favoriteService.GetFavorites(user_id).then(function(data){
+                            return favoriteService.GetFavorites().then(function(data){
                                 $.each(data, function (index, word) {
                                     word["favorited"] = true;
                                 });
@@ -56,21 +55,29 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                     templateUrl: "words.html",
                     controller: 'WordsCtrl',
                     resolve:{
-                        words : function(wordsService,favoriteService,$stateParams){
-                            var user_id = window.localStorage.facebook_id;
+                        words : function(wordsService,favoriteService,$stateParams,usersService){
                             var letter = $stateParams.letter;
                             return wordsService.getWordsHTTP(letter.toLowerCase())
                                 .then(function(data){
                                      var words = data;
-                                    return favoriteService.GetFavorites(user_id)
-                                        .then(function(data){
-                                            var favorites = data.map(function(favorite) {return favorite.id});
-                                            $.each(words, function (index, word) {
-                                                favorites.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
-                                                word["clicked"] = false;
+                                     var loggedin = usersService.IsLoggedIn();
+                                    if(loggedin){
+                                        return favoriteService.GetFavorites()
+                                            .then(function(data){
+                                                var favorites = data.map(function(favorite) {return favorite.id});
+                                                $.each(words, function (index, word) {
+                                                    favorites.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
+                                                    word["clicked"] = false;
+                                                });
+                                                return words;
                                             });
-                                            return words;
+                                    }
+                                    else{
+                                        $.each(words, function (index, word) {
+                                            word["clicked"] = false;
                                         });
+                                        return words;
+                                    }
                                 });
                         }
                     }

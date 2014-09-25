@@ -18,8 +18,7 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
                 cache: true
             }
         ).success(function (data) {
-            //$rootScope.$broadcast('getWordsHTTP',data)
-                deferred.resolve(data);
+            deferred.resolve(data);
             $ionicLoading.hide();
         });
         return deferred.promise;
