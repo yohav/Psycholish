@@ -1,4 +1,4 @@
-psycholish.factory("wordsService", function ($q, $http,$ionicLoading,$rootScope) {
+psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
 
     var getWordsHTTP = function (letter) {
         $ionicLoading.show({
