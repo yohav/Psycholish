@@ -1,5 +1,11 @@
-psycholish.factory('favoriteService',function($http,$q){
+psycholish.factory('favoriteService',function($http,$q,$ionicLoading){
     var getFavorites = function(user_id){
+        $ionicLoading.show({
+            template: '<i class="icon ion-loading-d" style="font-size: 32px"></i>',
+            animation: 'fade-in',
+            noBackdrop: false
+        });
+
         var deferred = $q.defer();
 
         var url = psycholish.baseAdress+'controllers/UserWordsController.php?user_id='+user_id;
@@ -12,6 +18,7 @@ psycholish.factory('favoriteService',function($http,$q){
         ).success(function (data) {
                // $rootScope.$broadcast('getFavoriteWords',data)
                 deferred.resolve(data);
+                $ionicLoading.hide();
         });
         return deferred.promise;
     }
