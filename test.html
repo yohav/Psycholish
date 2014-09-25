@@ -1,0 +1,16 @@
+<ion-view title="בחינה עצמית" class="padding">
+    <ion-content>
+        <div>
+            <div class="row">
+                <div class="col col-33 col-offset-33">
+                    <flip flip-toggle horizontal ng-swipe-right="back()" ng-swipe-left="next()">
+                        <flip-front>{{word.word}}</flip-front>
+                        <flip-back>{{word.definition}}</flip-back>
+                    </flip>
+                    <div class="card-index">{{index+1}}</div>
+
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

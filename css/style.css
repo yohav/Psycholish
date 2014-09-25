@@ -96,3 +96,17 @@ ion-item{
     background-color: #fff;
     text-align: center;
 }
+
+.word-container{
+    height: 100px;
+    text-align: center;
+    line-height: 80px;
+}
+
+.card-index{
+    margin:auto;
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #3cc1ff;
+}

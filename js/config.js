@@ -37,7 +37,20 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-
+        .state('tabs.test', {
+            url: "/test",
+            views: {
+                'test-tab': {
+                    templateUrl: "test.html",
+                    controller: 'TestCtrl',
+                    resolve:{
+                        words: function(favoriteService){
+                            return favoriteService.GetFavorites();
+                        }
+                    }
+                }
+            }
+        })
         .state('tabs.letters', {
             url: "/letters",
             views: {
