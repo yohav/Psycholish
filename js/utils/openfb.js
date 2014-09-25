@@ -149,7 +149,6 @@ var openFB = (function() {
         url = 'https://graph.facebook.com' + obj.path + '?' + toQueryString(params);
 
         xhr.onreadystatechange = function() {
-            console.log(xhr.readyState + ' ' + xhr.status);
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     if (obj.success) obj.success(JSON.parse(xhr.responseText));

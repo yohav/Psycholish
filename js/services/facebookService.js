@@ -1,9 +1,11 @@
 psycholish.factory("facebookService", function () {
     var Login = function(successCallback,failCallback){
         Init();
+
         openFB.login('email',
             successCallback,
             failCallback);
+
     }
     var Init = function(){
         openFB.init('1478282099110792');

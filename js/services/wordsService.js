@@ -7,7 +7,8 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading,$rootScope)
             noBackdrop: false
         });
 
-        var url = 'http://psycholish.uphero.com/controllers/WordsController.php?letter=';
+        var url = psycholish.baseAdress+'controllers/WordsController.php?letter=';
+        var deferred = $q.defer();
 
         url += letter;
         $http(
@@ -16,12 +17,12 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading,$rootScope)
                 url: url,
                 cache: true
             }
-        )
-
-            .success(function (data) {
-                $rootScope.$broadcast('getWordsHTTP',data)
-                $ionicLoading.hide();
-            });
+        ).success(function (data) {
+            //$rootScope.$broadcast('getWordsHTTP',data)
+                deferred.resolve(data);
+            $ionicLoading.hide();
+        });
+        return deferred.promise;
     }
     return {
         getWordsHTTP: getWordsHTTP

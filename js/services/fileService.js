@@ -4,11 +4,9 @@ psycholish.factory('fileService',function(){
 
     var loadFile =  function(url,file_name){
         document.addEventListener("deviceready", onDeviceReady, false);
+        var dataDir = cordova.file.dataDirectory;
 
         function onDeviceReady() {
-            alert("cordova file:" +cordova.file);
-            var dataDir = cordova.file.dataDirectory;
-            alert(dataDir);
             window.resolveLocalFileSystemURL(dataDir + file_name, appStart, downloadAsset);
         }
         function downloadAsset() {
