@@ -1,33 +1,52 @@
 <ion-view title="בחינה עצמית" class="padding">
     <ion-content>
-
-        <div class="row" ng-repeat="row in rows">
-            <div class="col col-25" ng-class="{'col-50': letter=='מועדפים'}" ng-repeat="letter in row">
-                <ul class="list">
-                    <li class="item item-checkbox">
-                        <label class="checkbox">
-                            <input ng-click="changeLetter(letter)" type="checkbox">
-                        </label>
-                        {{letter}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-
         <div>
             <div class="row">
                 <div class="col">
                     <flip flip-toggle horizontal ng-swipe-right="back()" ng-swipe-left="next()">
                         <flip-front>{{words[index].word}}</flip-front>
-                        <flip-back>{{words[index].definition}}</flip-back>
+                        <flip-back dir="rtl">{{words[index].definition}}</flip-back>
                     </flip>
                 </div>
             </div>
             <div class="row">
-                <div class="col col-33 col-offset-33">
-                    <div class="card-index">{{words.length ? (index+1) : 0}} / {{words.length || 'אין מילים'}} </div>
-                    <button ng-click="shuffleArray(words)" class="button button-calm shuffle-button">ערבב</button>
+                <div class="test-bottom-div">
+                    <div>
+                        <div class="card-index">
+                           {{words.length ? (index+1) : 0}} / {{words.length || '0'}}
+                        </div>
+                        <ul class="list favorite-checkbox">
+                            <li class="item item-checkbox">
+                                <label class="checkbox">
+                                    <input ng-click="changeFavorites();" type="checkbox">
+                                </label>
+                                מועדפים
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="test-bottom-div">
+                <div>
+                    <button ng-click="shuffleArray(words)" class="button button-calm shuffle-button">ערבוב</button>
+                    <button ng-click="deleteAll()" class="button button-calm reset-button">אתחול</button>
+                </div>
+             </div>
+        </div>
+
+        <div class="row" ng-repeat="row in rows">
+            <div class="col col-25" ng-repeat="letter in row">
+                <ul class="list">
+                    <li class="item item-checkbox">
+                        <label class="checkbox">
+                            <input ng-click="changeLetter(letter);" type="checkbox">
+                        </label>
+                        {{letter}}
+                    </li>
+                </ul>
             </div>
         </div>
     </ion-content>

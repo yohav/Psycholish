@@ -76,6 +76,7 @@
    text-align: center;
 }
 
+/*test tab*/
 .slider {
     height: 100%;
 }
@@ -93,19 +94,50 @@
     background: #7db9e8;
     font-weight: bold;
 }
-
+.flip{
+    margin-bottom:40px;
+}
 div[flip-toggle]{
     height:100px;
 }
 .card-index{
-    margin: 50px auto 15px;
+    float:left;
     width: 100px;
+    height:50px;
     text-align: center;
+    line-height: 45px;
     font-weight: bold;
     background-color: #3cc1ff;
+    border: double;
 }
 
-.shuffle-button{
+.shuffle-button, .reset-button{
     width: 100px;
+    height:50px;
     text-align: center;
+    float: left;
+    margin:0px 5px 30px 0px;
+
+}
+
+.favorite-checkbox{
+    float: left;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.test-bottom-div{
+    width:100%;
+}
+.test-bottom-div > div{
+    width:75%;
+    margin:0 auto;
+}
+.item-checkbox {
+    padding-left: 0px;
+}
+
+.favorite-checkbox .item-checkbox{
+    padding-left: 50px;
 }

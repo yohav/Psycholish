@@ -3,11 +3,14 @@
         if($('div[flip-toggle]').hasClass('flipped')){
              $('.card').click();
         }
-        $scope.index++;
-        if($scope.index >= $scope.words.length){
-            $scope.index = 0;
-        }
-        setTimeout(function(){$scope.word = $scope.words[$scope.index];},1000);
+
+        $timeout(function(){
+                    console.log('done');
+                    $scope.index++;
+                    if($scope.index >= $scope.words.length){
+                        $scope.index = 0;
+                    }}
+                    ,200);
 
 
     }
@@ -17,12 +20,15 @@
         }
         if($scope.words.length)
         {
-            $scope.index--;
-            if($scope.index <= -1){
-                $scope.index = $scope.words.length - 1;
-            }
+
+            $timeout(function(){
+                        $scope.index--;
+                        if($scope.index <= -1){
+                            $scope.index = $scope.words.length - 1;
+                        }}
+                        ,200);
         }
-        setTimeout(function(){$scope.word = $scope.words[$scope.index];},1000);
+
     }
     $scope.shuffleArray = function(array) {
         var currentIndex = array.length, temporaryValue, randomIndex ;
@@ -51,54 +57,73 @@
         ["M", "N", "O", "P"],
         ["Q", "R", "S", "T"],
         ["U", "V", "W", "X"],
-        ["Y", "Z","מועדפים"]
+        ["Y", "Z"]
     ];
     $scope.letters = "";
     $scope.checkedFavorites = false;
-    $scope.loggedIn = usersService.IsLoggedIn();
     $scope.changeLetter = function(letter){
         letter = letter.toLowerCase();
         var index = $scope.letters.indexOf(letter);
         if( index > -1){
-            $scope.letters = $scope.letters.slice(0, index)+$scope.letters.slice(index + 1);
-            $scope.words = $scope.words.filter(
-                                    function(word){
-                                        return (word.word.charAt(0)!=letter);
-                                    });
+            $scope.unCheckLetter(letter,index);
         }
         else {
-            if(letter == "מועדפים"){
-                if($scope.checkedFavorites){
-                    $scope.words = $scope.words.filter(
-                        function(word){
-                            return ($scope.favorites.indexOf(word) == -1);
-                        });
-                    $scope.checkedFavorites = false;
-                }
-                else{
-                    if($scope.loggedIn)
-                    {
-                        $scope.getFavorites();
-                    }
-                    else{
-                    usersService.ShowLoginPopup(function(){
-                            $scope.getFavorites();
-                            $scope.loggedIn = true;
-                        }
-                        ,$state.current.name,$scope);
-                    }
-                }
-            }
-            else  {
-                $scope.letters+=letter;
-                wordsService.getWordsHTTP(letter)
-                    .then(function(data){
-                        $scope.words = $scope.words.concat(data);
-                    });
-            }
+            $scope.checkLetter(letter);
         }
+        $scope.updateIndex();
+    }
+    $scope.updateIndex = function(){
         $scope.index = ($scope.index < $scope.words.length) ? $scope.index : 0;
 
+    }
+    $scope.checkLetter = function(letter){
+        $scope.letters+=letter;
+        wordsService.getWordsHTTP(letter)
+            .then(function(data){
+                $scope.words = $scope.words.concat(data);
+            });
+    }
+    $scope.unCheckLetter = function(letter,index){
+        $scope.letters = $scope.letters.slice(0, index)+$scope.letters.slice(index + 1);
+        $scope.words = $scope.words.filter(
+            function(word){
+                return (word.word.charAt(0)!=letter);
+            });
+        $scope.checkedFavorites = false;
+    }
+    $scope.checkFavorites = function(){
+        var loggedIn = usersService.IsLoggedIn();
+        if(loggedIn)
+        {
+            $scope.getFavorites();
+        }
+        else{
+            usersService.ShowLoginPopup(
+                            function(){
+                                $scope.getFavorites();
+                            }
+                            ,function(){
+                                $state.go($state.current.name);
+                                $('.favorite-checkbox input').prop('checked',false);
+                            }
+                            ,$scope);
+        }
+    }
+    $scope.unCheckFavorites = function(){
+        $scope.words = $scope.words.filter(
+            function(word){
+                return ($scope.favorites.indexOf(word) == -1);
+            });
+    }
+
+    $scope.changeFavorites = function(){
+        if($scope.checkedFavorites){
+            $scope.unCheckFavorites();
+        }
+        else{
+            $scope.checkFavorites();
+        }
+        $scope.updateIndex();
     }
     $scope.getFavorites = function(){
         favoriteService.GetFavorites()
@@ -107,6 +132,14 @@
                 $scope.words = $scope.words.concat(data);
                 $scope.checkedFavorites = true;
             });
+    }
+    $scope.deleteAll = function(){
+        $('input').prop('checked',false);
+        $scope.letters="";
+        $scope.words = [];
+        $scope.updateIndex();
+        $scope.checkedFavorites = false;
+
     }
 
 });

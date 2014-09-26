@@ -39,7 +39,7 @@
     var getLoggedInID = function(){
         return  window.localStorage.facebook_id;
     }
-    var showLoginPopup = function(okCallback,cancel_page,$scope){
+    var showLoginPopup = function(okCallback,cancelCallback,$scope){
             var loginPopup = $ionicPopup.show({
                 title: 'אנא התחבר',
                 template: '<p dir="rtl">כדי להשתמש בפונקציית המועדפים, יש צורך להתחבר.</p>',
@@ -63,7 +63,7 @@
                 if(res) {
                     login(okCallback);
                 } else {
-                    $state.go(cancel_page);
+                    cancelCallback();
                 }
             });
     }

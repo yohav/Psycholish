@@ -13,7 +13,7 @@
                                 notify: true
                                 });
                              }
-                            ,'tabs.letters',$scope);
+                            ,function(){$state.go('tabs.letters');},$scope);
     }
     $scope.letter = $stateParams.letter;
 
@@ -54,7 +54,7 @@
                                             });
                                           });
                                  $scope.loggedIn = true;}
-                                   ,$state.current.name,$scope);
+                                   ,function(){$state.go($state.current.name);},$scope);
         }
         else
         {
