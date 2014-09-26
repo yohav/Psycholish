@@ -3,7 +3,7 @@
         <div class="row" ng-repeat="row in rows">
             <div class="col" ng-repeat="letter in row">
                 <div class="card">
-                    <div class="item item-text-wrap" ui-sref="tabs.letter({letter:'{{letter}}'})">
+                    <div class="item item-text-wrap letter-item" ui-sref="tabs.letter({letter:'{{letter}}'})">
                        {{letter}}
                     </div>
                 </div>

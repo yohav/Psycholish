@@ -42,12 +42,7 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'test-tab': {
                     templateUrl: "test.html",
-                    controller: 'TestCtrl',
-                    resolve:{
-                        words: function(favoriteService){
-                            return favoriteService.GetFavorites();
-                        }
-                    }
+                    controller: 'TestCtrl'
                 }
             }
         })

@@ -79,11 +79,21 @@ SQL;
     }
 
     private static function mysql_get_words($letter){
-        $query = <<<SQL
-                  SELECT id, word,definition
-                  FROM words
-                  WHERE letter='$letter'
+        if(strlen($letter) == 1){
+            $query = <<<SQL
+                      SELECT id, word,definition
+                      FROM words
+                      WHERE letter='$letter'
 SQL;
+        }
+        else{
+            $letters = "('".implode("','",str_split($letter))."')";
+            $query = <<<SQL
+                      SELECT id, word,definition
+                      FROM words
+                      WHERE letter IN $letters
+SQL;
+        }
         return DBConnection::get_instance()->query($query);
     }
 }
