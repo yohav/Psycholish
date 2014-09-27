@@ -1,5 +1,5 @@
-psycholish.controller('IntroCtrl', function($scope, $state,usersService){
-
+psycholish.controller('IntroCtrl', function($scope, $state,usersService,wordsService){
+    wordsService.DownloadAll(0);
     $scope.slideChanged = function(index) {
         $scope.slideIndex = index;
     };

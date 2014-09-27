@@ -1,5 +1,5 @@
 psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
-
+    var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
     var getWords = function (letter) {
         var storage = localStorage.getItem(letter+'_letter');
         $ionicLoading.show({
@@ -38,7 +38,21 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
             });
         return deferred.promise;
     }
+
+    var downloadAll = function(index){
+        var downloadedAll = localStorage.getItem('downloadedAll');
+        if(!downloadedAll){
+            if(index < alphabet.length){
+                getWordsHTTP(alphabet[index],$q.defer()).then(downloadAll(index + 1));
+            }
+            else{
+                localStorage.setItem('downloadedAll',true);
+            }
+        }
+    }
+
     return {
-        GetWords: getWords
+        GetWords: getWords,
+        DownloadAll: downloadAll
     };
 });

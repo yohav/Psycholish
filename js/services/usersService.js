@@ -34,7 +34,7 @@
         facebookService.Login(loginSuccess,loginFail);
     }
     var isloggedin = function(){
-        return (window.localStorage.fbtoken != "undefined");
+        return (window.localStorage.getItem('fbtoken') != null);
     }
     var getLoggedInID = function(){
         return  window.localStorage.facebook_id;
