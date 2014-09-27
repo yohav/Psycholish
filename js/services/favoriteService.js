@@ -1,46 +1,19 @@
-psycholish.factory('favoriteService',function($http,$q,$ionicLoading,usersService){
+psycholish.factory('favoriteService',function(localWordService){
     var getFavorites = function(){
-        $ionicLoading.show({
-            template: '<i class="icon ion-loading-d" style="font-size: 32px"></i>',
-            animation: 'fade-in',
-            noBackdrop: false
-        });
-
-        var deferred = $q.defer();
-
-        var url = psycholish.baseAdress+'controllers/UserWordsController.php?user_id='+usersService.GetLoggedInID();
-        $http(
-            {
-                method: "get",
-                url: url,
-                cache: false
-            }
-        ).success(function (data) {
-                deferred.resolve(data);
-                $ionicLoading.hide();
-        });
-        return deferred.promise;
+        localWordService.SetStorage('favoriteWords');
+        return localWordService.GetWords() || [];
     }
-    var changeFavorite = function(word_id,isAdd){
-        var url = psycholish.baseAdress+'controllers/UserWordsController.php';
-        $http(
-            {
-                method: "post",
-                url: url,
-                data: {
-                    user_id: usersService.GetLoggedInID(),
-                    word_id: word_id,
-                    action:isAdd
-                }
-            }
-        ).success(function () {
-               console.log(isAdd ?"saved" : "deleted");
-        });
+    var changeFavorite = function(word,isAdd,$scope){
+        localWordService.SetStorage('favoriteWords');
+        if(isAdd){
+            localWordService.SaveWord($scope,{'id':word.id,'word':word.word, 'definition': word.definition});
+        }
+        else{
+            localWordService.DeleteWord(word);
+        }
     }
-
     return {
         GetFavorites : getFavorites,
         ChangeFavorite: changeFavorite
     }
-
 });

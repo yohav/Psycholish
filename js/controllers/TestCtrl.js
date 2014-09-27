@@ -1,4 +1,4 @@
-﻿psycholish.controller('TestCtrl', function ($scope,$timeout,wordsService,favoriteService,usersService,$state,localWordService) {
+﻿psycholish.controller('TestCtrl', function ($scope,$timeout,wordsService,favoriteService,$state,personalService) {
 
    $scope.clickCard = function(){
         if($('div[flip-toggle]').hasClass('flipped')){
@@ -88,7 +88,7 @@
     }
     $scope.checkLetter = function(letter){
         $scope.letters+=letter;
-        wordsService.getWordsHTTP(letter)
+        wordsService.GetWords(letter)
             .then(function(data){
                 $scope.words = $scope.words.concat(data);
             });
@@ -100,81 +100,61 @@
                 return (word.word.charAt(0)!=letter);
             });
     }
-    $scope.checkFavorites = function(){
-        var loggedIn = usersService.IsLoggedIn();
-        if(loggedIn)
-        {
-            $scope.getFavorites();
-        }
-        else{
-            $scope.showLogin();
-        }
-    }
-    $scope.showLogin = function(){
-        usersService.ShowLoginPopup(
-            function(){
-                $scope.getFavorites();
-            }
-            ,function(){
-                $state.go($state.current.name);
-                $('.favorite-checkbox input').prop('checked',false);
-            }
-            ,$scope);
-    }
-    $scope.unCheckFavorites = function(){
-        $scope.words = $scope.words.filter(
-            function(word){
-                return ($scope.favorites.indexOf(word) == -1);
-            });
-        $scope.checkedFavorites = false;
-    }
 
-    $scope.changeFavorites = function(){
-        if($scope.checkedFavorites){
-            $scope.unCheckFavorites();
+    $scope.changeSpecial = function(special_name){
+        var checked = (special_name == 'favorites') ? $scope.checkedFavorites : $scope.checkedPersonal;
+        if(checked){
+            $scope.unCheckSpecial(special_name);
         }
         else{
-            $scope.checkFavorites();
+            $scope.checkSpecial(special_name);
         }
         $scope.updateIndex();
     }
 
-    $scope.changePersonal = function(){
-        if($scope.checkedPersonal){
-            $scope.unCheckPersonal();
+    $scope.checkSpecial = function(special_name){
+        $scope.getSpecial(special_name);
+        if(special_name == 'favorites'){
+             $scope.checkedFavorites = true;
         }
         else{
-            $scope.checkPersonal();
+            $scope.checkedPersonal = true;
         }
-        $scope.updateIndex();
+
     }
 
-    $scope.unCheckPersonal = function(){
+    $scope.unCheckSpecial = function(special_name){
+        $scope.data = (special_name == 'favorites') ? $scope.favorites : $scope.personals;
         $scope.words = $scope.words.filter(
             function(word){
-                return ($scope.personalWords.indexOf(word) == -1);
+                return ($scope.data.indexOf(word) == -1);
             });
-        $scope.checkedPersonal = false;
+        if(special_name == 'favorites'){
+            $scope.checkedFavorites = false;
+        }
+        else{
+            $scope.checkedPersonal = false;
+        }
     }
 
-    $scope.checkPersonal = function(){
-        $scope.personalWords = localWordService.GetWords();
-        $scope.words = $scope.words.concat($scope.personalWords);
-        $scope.checkedPersonal = true;
+    $scope.getSpecial = function(special_name){
+        if(special_name == 'favorites'){
+            $scope.favorites = favoriteService.GetFavorites();
+            $scope.words = $scope.words.concat($scope.favorites);
+
+        }
+        else{
+            $scope.personals = personalService.GetPersonal();
+            $scope.words = $scope.words.concat($scope.personals);
+        }
     }
 
-    $scope.getFavorites = function(){
-        favoriteService.GetFavorites()
-            .then(function(data){
-                $scope.favorites = data;
-                $scope.words = $scope.words.concat(data);
-                $scope.checkedFavorites = true;
-            });
-    }
     $scope.deleteAll = function(){
         $('input').prop('checked',false);
         $scope.letters="";
         $scope.words = [];
+        $scope.favorites= [];
+        $scope.personals = [];
         $scope.updateIndex();
         $scope.checkedFavorites = false;
         $scope.checkedPersonal = false;

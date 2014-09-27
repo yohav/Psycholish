@@ -1,13 +1,11 @@
-﻿psycholish.controller('WordsCtrl', function ($scope, words,favoriteService,facebookService,usersService,localWordService,$state,$stateParams,$ionicPopup) {
+﻿psycholish.controller('WordsCtrl', function ($scope, words,favoriteService,$state,$stateParams,$ionicPopup,personalService) {
 
 
 
     $scope.tab = $state.current.name;
     $scope.inFavorites = ($scope.tab == "tabs.favorites");
     $scope.inPersonal = ($scope.tab == "tabs.personal");
-    $scope.loggedIn = usersService.IsLoggedIn();
     $scope.letter = $stateParams.letter;
-    $scope.user_id = window.localStorage.facebook_id;
     $scope.allDefinitionsVisible = false;
     $scope.words = words;
 
@@ -19,17 +17,6 @@
             $scope.tabTitle =  'מילים אישיות';
         }
         else $scope.tabTitle =  $scope.letter;
-    }
-
-    if( $scope.inFavorites && !$scope.loggedIn){
-        usersService.ShowLoginPopup(function(){
-                                $state.transitionTo($state.current, $stateParams, {
-                                reload: true,
-                                inherit: false,
-                                notify: true
-                                });
-                             }
-                            ,function(){$state.go('tabs.letters');},$scope);
     }
 
     $scope.setTabTitle();
@@ -60,19 +47,15 @@
         if($scope.inPersonal){
             $scope.deletePopup(word);
         }
-        else if(!$scope.loggedIn){
-                $scope.toggleFavoriteWithoutLoginPopup();
+        else
+            if($scope.inFavorites){
+                $scope.deletePopup(word);
             }
-            else
-            {
-                if($scope.inFavorites){
-                    $scope.deletePopup(word);
-                }
-                else{
-                    $scope.toggleFavoriteAfterLogin(word);
-                }
+            else{
+                $scope.regularToggleFavorite(word);
+            }
 
-            }
+
     }
 
     $scope.deletePopup = function(word){
@@ -95,19 +78,19 @@
         });
         popup.then(function(res) {
             if(res){
-                $scope.toggleFavoriteAfterLogin(word);
+                $scope.regularToggleFavorite(word);
             }
         });
     }
 
 
-    $scope.toggleFavoriteAfterLogin = function(word){
+    $scope.regularToggleFavorite = function(word){
         if(word.favorited == undefined){
-            localWordService.DeleteWord(word);
+            personalService.DeletePersonal(word);
         }
         else{
             word.favorited = !word.favorited;
-            favoriteService.ChangeFavorite(word.id,word.favorited);
+            favoriteService.ChangeFavorite(word,word.favorited,$scope);
         }
         if($scope.inFavorites || $scope.inPersonal){
             var index = $scope.words.indexOf(word);
@@ -115,26 +98,8 @@
         }
     }
 
-    $scope.toggleFavoriteWithoutLoginPopup = function(){
-        usersService.ShowLoginPopup(function(){
-                favoriteService.GetFavorites()
-                    .then(function(data){
-                        var favorites = data.map(function(favorite) {return favorite.id});
-                        $.each($scope.words, function (index, word) {
-                            favorites.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
-                        });
-                    });
-                $scope.loggedIn = true;}
-            ,function(){$state.go($state.current.name);},$scope);
-    }
-    $scope.logout = function(){
-        facebookService.Logout();
-        window.localStorage.facebook_id = "";
-        window.localStorage.facebook_name = "";
-        $state.go('intro');
-    };
     $scope.addNewWord = function(){
-        localWordService.ShowPopUp($scope);
+        personalService.AddNewPersonalPopup($scope);
     }
 
     $scope.getFavoriteIcon = function(word){
@@ -143,9 +108,6 @@
         }
         if($scope.inPersonal){
             return 'ion-ios7-trash';
-        }
-        if(!$scope.loggedIn){
-            return 'ion-ios7-heart-outline';
         }
         if(word.favorited)
             return 'ion-ios7-heart';
