@@ -1,4 +1,4 @@
-Player = function(words,play_button,loading){
+Player = function(words,endPlayCallback){
 
     var $this= this;
 
@@ -11,8 +11,7 @@ Player = function(words,play_button,loading){
                         });
     this.nextAudio = function(){
         if($this.count >= $this.numOfWords){
-            play_button.show();
-            loading.hide();
+            endPlayCallback();
             $this.audio.release();
         }
         else {
@@ -20,10 +19,7 @@ Player = function(words,play_button,loading){
              $this.play_word(current_word);
         }
     }
-    this.errorFallback = function(){
-        play_button.show();
-        loading.hide();
-    }
+
     this.play = function(){
         this.play_word(this.words[0]);
     }
@@ -53,10 +49,7 @@ Player = function(words,play_button,loading){
     this.playV3 = function(word){
         word = capitalize(word);
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
-        $this.audio.mediaError = function(err){
-            play_button.show();
-            loading.hide();
-        }
+        $this.audio.mediaError = endPlayCallback;
         this.play_url(soundUrl);
     }
 }

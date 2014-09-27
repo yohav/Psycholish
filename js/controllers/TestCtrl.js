@@ -1,35 +1,42 @@
 ﻿psycholish.controller('TestCtrl', function ($scope,$timeout,wordsService,favoriteService,usersService,$state) {
-    $scope.next = function(){
-        if($('div[flip-toggle]').hasClass('flipped')){
-             $('.card').click();
-        }
 
-        $timeout(function(){
-                    console.log('done');
+   $scope.clickCard = function(){
+        if($('div[flip-toggle]').hasClass('flipped')){
+            $('.card').click();
+        }
+    }
+
+    $scope.next = function(){
+        $scope.clickCard();
+        $scope.changeIndex(true);
+    }
+
+    $scope.back = function(){
+        $scope.clickCard();
+        $scope.changeIndex(false);
+    }
+
+    $scope.changeIndex = function(up){
+        if(up){
+            $timeout(function(){
                     $scope.index++;
                     if($scope.index >= $scope.words.length){
                         $scope.index = 0;
                     }}
-                    ,200);
-
-
-    }
-    $scope.back = function(){
-        if($('div[flip-toggle]').hasClass('flipped')){
-            $('.card').click();
+                ,200);
         }
-        if($scope.words.length)
-        {
-
-            $timeout(function(){
+        else if($scope.words.length)
+            {
+                $timeout(function(){
                         $scope.index--;
                         if($scope.index <= -1){
                             $scope.index = $scope.words.length - 1;
                         }}
-                        ,200);
-        }
+                    ,200);
+            }
 
     }
+
     $scope.shuffleArray = function(array) {
         var currentIndex = array.length, temporaryValue, randomIndex ;
 
@@ -48,6 +55,7 @@
 
         return array;
     }
+
     $scope.words=[];
     $scope.index = 0;
     $scope.rows = [
@@ -89,7 +97,6 @@
             function(word){
                 return (word.word.charAt(0)!=letter);
             });
-        $scope.checkedFavorites = false;
     }
     $scope.checkFavorites = function(){
         var loggedIn = usersService.IsLoggedIn();
@@ -98,22 +105,26 @@
             $scope.getFavorites();
         }
         else{
-            usersService.ShowLoginPopup(
-                            function(){
-                                $scope.getFavorites();
-                            }
-                            ,function(){
-                                $state.go($state.current.name);
-                                $('.favorite-checkbox input').prop('checked',false);
-                            }
-                            ,$scope);
+            $scope.showLogin();
         }
+    }
+    $scope.showLogin = function(){
+        usersService.ShowLoginPopup(
+            function(){
+                $scope.getFavorites();
+            }
+            ,function(){
+                $state.go($state.current.name);
+                $('.favorite-checkbox input').prop('checked',false);
+            }
+            ,$scope);
     }
     $scope.unCheckFavorites = function(){
         $scope.words = $scope.words.filter(
             function(word){
                 return ($scope.favorites.indexOf(word) == -1);
             });
+        $scope.checkedFavorites = false;
     }
 
     $scope.changeFavorites = function(){
@@ -140,6 +151,16 @@
         $scope.updateIndex();
         $scope.checkedFavorites = false;
 
+    }
+
+    $scope.play_sound = function (word,$event) {
+        $event.stopPropagation();
+        var play_button = $($event.currentTarget);
+        var loading = play_button.siblings('img');
+        play_button.attr('hidden',true);
+        loading.attr('hidden',false);
+        var player = new Player(word,function(){play_button.attr('hidden',false); loading.attr('hidden',true); });
+        player.play();
     }
 
 });

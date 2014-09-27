@@ -141,3 +141,14 @@ div[flip-toggle]{
 .favorite-checkbox .item-checkbox{
     padding-left: 50px;
 }
+
+.play-button-in-card , .loading-sound-in-card{
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.local-word-input{
+    text-align: center;
+}

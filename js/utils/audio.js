@@ -1,4 +1,4 @@
-Player = function(words,play_button,loading){
+Player = function(words,endPlayCallback){
 
     var $this= this;
 
@@ -8,18 +8,14 @@ Player = function(words,play_button,loading){
     this.audio = new Audio();
     this.nextAudio = function(){
         if($this.count >= $this.numOfWords){
-            play_button.show();
-            loading.hide();
+            endPlayCallback();
         }
         else {
             var current_word = $this.words[$this.count];
              $this.play_word(current_word);
         }
     }
-    this.errorFallback = function(){
-        play_button.show();
-        loading.hide();
-    }
+
     this.play = function(){
         this.play_word(this.words[0]);
     }
@@ -52,12 +48,9 @@ Player = function(words,play_button,loading){
         word = capitalize(word);
         var soundUrl = 'http://translate.google.com/translate_tts?tl=en&q='+word;
         this.play_url(soundUrl);
-        $this.audio.onerror = function(){
-            play_button.show();
-            loading.hide();
-        }
+        $this.audio.onerror =  endPlayCallback;
     }
 
     this.audio.addEventListener('ended',this.nextAudio,false);
-    this.audio.addEventListener('error',this.errorFallback,true);
+    this.audio.addEventListener('error',endPlayCallback,true);
 }

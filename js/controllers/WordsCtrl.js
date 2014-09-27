@@ -1,4 +1,4 @@
-﻿psycholish.controller('WordsCtrl', function ($scope, words,favoriteService,facebookService,usersService,$state,$stateParams) {
+﻿psycholish.controller('WordsCtrl', function ($scope, words,favoriteService,facebookService,usersService,localWordService,$state,$stateParams) {
 
 
 
@@ -24,9 +24,9 @@
         $event.stopPropagation();
         var play_button = $($event.currentTarget);
         var loading = play_button.siblings('img');
-        play_button.hide();
-        loading.show();
-        var player = new Player(word,play_button,loading);
+        play_button.attr('hidden',true);
+        loading.attr('hidden',false);
+        var player = new Player(word,function(){play_button.attr('hidden',false); loading.attr('hidden',true); });
         player.play();
     }
 
@@ -72,6 +72,8 @@
         window.localStorage.facebook_name = "";
         $state.go('intro');
     };
-
+    $scope.addNewWord = function(){
+        localWordService.ShowPopUp($scope);
+    }
 
 });

@@ -4,7 +4,11 @@
             <div class="row">
                 <div class="col">
                     <flip flip-toggle horizontal ng-swipe-right="back()" ng-swipe-left="next()">
-                        <flip-front>{{words[index].word}}</flip-front>
+                        <flip-front>
+                            {{words[index].word}}
+                            <img class="play-button play-button-in-card" ng-click="play_sound(words[index].word,$event)" ng-if="words.length" src="img/play.svg" ng-click="play_sound(word.word,$event);">
+                            <img class="loading-sound loading-sound-in-card" hidden src="img/loading.gif">
+                        </flip-front>
                         <flip-back dir="rtl">{{words[index].definition}}</flip-back>
                     </flip>
                 </div>
