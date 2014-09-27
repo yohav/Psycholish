@@ -40,6 +40,11 @@
 .clear-search {
     cursor: pointer;
 }
+
+.ion-ios7-close{
+font-size: 25px;
+}
+
 .item.activated {
     background-color: white;
 }

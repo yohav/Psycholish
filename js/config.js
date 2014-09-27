@@ -37,7 +37,7 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                     controller: 'WordsCtrl',
                     resolve:{
                         words: function(localWordService){
-                                return localWordService.GetWords();
+                                return localWordService.GetWords() || [];
                         }
                     }
                 }
