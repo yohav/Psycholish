@@ -29,11 +29,17 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('tabs.contact', {
-            url: "/contact",
+        .state('tabs.personal', {
+            url: "/personal",
             views: {
-                'contact-tab': {
-                    templateUrl: "contact.html"
+                'personal-tab': {
+                    templateUrl: "words.html",
+                    controller: 'WordsCtrl',
+                    resolve:{
+                        words: function(localWordService){
+                                return localWordService.GetWords();
+                        }
+                    }
                 }
             }
         })

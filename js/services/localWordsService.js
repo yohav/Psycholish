@@ -2,36 +2,46 @@
     var storageName = "localWords";
     var showPopUp = function($scope){
         $scope.myword = {};
-        $ionicPopup.show({
-            template: '<input class="local-word-input" type="text" ng-model="myword.word" placeholder="הכנס מילה">' +
-                '<input class="local-word-input" type="text" ng-model="myword.definition" placeholder="הכנס פירוש">',
-            title: 'מילה אישית חדשה',
+        var popup = $ionicPopup.show({
+            template: '<input class="local-word-input" type="text" ng-model="myword.word" placeholder="מילה">' +
+                '<input class="local-word-input" type="text" ng-model="myword.definition" placeholder="פירוש">',
+            title: '<b>מילה אישית חדשה</b>',
             scope: $scope,
             buttons: [
-                { text: 'ביטול' },
+                { text: 'ביטול',
+                    onTap: function(e) {
+                        return false;
+                    }
+                },
                 {
                     text: '<b>שמור</b>',
                     type: 'button-positive',
                     onTap: function(e) {
-                        var isGood = isGoodWord($scope.myword);
-                        var wordExists = hasWord($scope.myword);
-                        if(isGood && !wordExists){
-                            saveWord($scope.myword);
-                        }
-                        else{
-                            handleError(isGood,wordExists);
-                        }
+                        return true;
                     }
                 },
             ]
+        });
+        popup.then(function(res){
+            if(res){
+                var isGood = isGoodWord($scope.myword);
+                var wordExists = hasWord($scope.myword);
+                if(isGood && !wordExists){
+                    saveWord($scope.myword);
+                    $scope.words.push($scope.myword);
+                }
+                else{
+                    handleError(isGood,wordExists);
+                }
+            }
         });
     }
 
     var handleError = function(isGood,wordExists){
         if(!isGood){
             $ionicPopup.alert({
-                title: 'שגיאה בהכנסת מילה',
-                template: '<p dir="rtl">המילה יכולה להכיל רק תווים באנגלית ורווחים</p><p dir="rtl">הפירוש יכול להכיל רק תויים בעברית, גרש ורווחים</p>'
+                title: '<b>שגיאה בהכנסת מילה</b>',
+                template: '<p class="local-words-error">המילה יכולה להכיל רק תווים באנגלית ורווחים</p><p class="local-words-error">הפירוש יכול להכיל רק תויים בעברית, גרש ורווחים</p>'
             });
         }
         else if(wordExists){

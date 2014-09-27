@@ -41,8 +41,8 @@
     }
     var showLoginPopup = function(okCallback,cancelCallback,$scope){
             var loginPopup = $ionicPopup.show({
-                title: 'אנא התחבר',
-                template: '<p dir="rtl">כדי להשתמש בפונקציית המועדפים, יש צורך להתחבר.</p>',
+                title: '<b>אנא התחבר</b>',
+                template: '<p dir="rtl">כדי להשתמש בפונקציית המועדפים, יש צורך להתחבר באמצעות חשבון פייסבוק.</p>',
                 scope: $scope,
                 buttons: [
                     { text: 'ביטול' ,

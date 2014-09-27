@@ -1,4 +1,4 @@
-﻿psycholish.controller('TestCtrl', function ($scope,$timeout,wordsService,favoriteService,usersService,$state) {
+﻿psycholish.controller('TestCtrl', function ($scope,$timeout,wordsService,favoriteService,usersService,$state,localWordService) {
 
    $scope.clickCard = function(){
         if($('div[flip-toggle]').hasClass('flipped')){
@@ -69,6 +69,8 @@
     ];
     $scope.letters = "";
     $scope.checkedFavorites = false;
+    $scope.checkedPersonal = false;
+
     $scope.changeLetter = function(letter){
         letter = letter.toLowerCase();
         var index = $scope.letters.indexOf(letter);
@@ -136,6 +138,31 @@
         }
         $scope.updateIndex();
     }
+
+    $scope.changePersonal = function(){
+        if($scope.checkedPersonal){
+            $scope.unCheckPersonal();
+        }
+        else{
+            $scope.checkPersonal();
+        }
+        $scope.updateIndex();
+    }
+
+    $scope.unCheckPersonal = function(){
+        $scope.words = $scope.words.filter(
+            function(word){
+                return ($scope.personalWords.indexOf(word) == -1);
+            });
+        $scope.checkedPersonal = false;
+    }
+
+    $scope.checkPersonal = function(){
+        $scope.personalWords = localWordService.GetWords();
+        $scope.words = $scope.words.concat($scope.personalWords);
+        $scope.checkedPersonal = true;
+    }
+
     $scope.getFavorites = function(){
         favoriteService.GetFavorites()
             .then(function(data){
@@ -150,6 +177,7 @@
         $scope.words = [];
         $scope.updateIndex();
         $scope.checkedFavorites = false;
+        $scope.checkedPersonal = false;
 
     }
 
