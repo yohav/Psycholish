@@ -25,6 +25,12 @@ class Queries
        return $words;
     }
 
+    public static function get_all_words(){
+        $result = self::mysql_get_all_words();
+        $words =  self::fetch_words_results($result);
+        return $words;
+    }
+
     public static function get_favorite_words($user_id){
         $result = self::mysql_get_favorite_words($user_id);
         $words =  self::fetch_words_results($result);
@@ -77,7 +83,13 @@ SQL;
 SQL;
         return DBConnection::get_instance()->query($query);
     }
-
+    private static function mysql_get_all_words(){
+        $query = <<<SQL
+                      SELECT id, word,definition
+                      FROM words
+SQL;
+        return DBConnection::get_instance()->query($query);
+    }
     private static function mysql_get_words($letter){
         if(strlen($letter) == 1){
             $query = <<<SQL

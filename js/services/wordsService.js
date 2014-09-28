@@ -39,9 +39,24 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
         return deferred.promise;
     }
 
+    var getAllWords = function(){
+        var deferred = $q.defer();
+        var url = psycholish.baseAdress+'controllers/WordsController.php';
+        $http(
+            {
+                method: "get",
+                url: url,
+                cache: true
+            }
+        ).success(function (data) {
+                deferred.resolve(data);
+            });
+        return deferred.promise;
+    }
+
     var downloadAll = function(index){
         var downloadedAll = localStorage.getItem('downloadedAll');
-        if(!downloadedAll){
+        if(downloadedAll == null){
             if(index < alphabet.length){
                 getWordsHTTP(alphabet[index],$q.defer()).then(downloadAll(index + 1));
             }
@@ -51,8 +66,30 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
         }
     }
 
+    var downloadAllV2 = function(){
+        var downloadedAll = localStorage.getItem('downloadedAll');
+        if(downloadedAll == null){
+            getAllWords().then(function(data){
+                var x = new Array(26);
+                for (var i = 0; i < 26; i++) {
+                    x[alphabet[i]] = [];
+                }
+                data.forEach(function (value) {
+                    x[value.word[0]].push(value);
+                });
+                for (i = 0; i < 26; i++) {
+                    var letter = alphabet[i];
+                    localStorage.setItem(letter+'_letter',JSON.stringify(x[letter]));
+                }
+                console.log('download');
+                localStorage.setItem('downloadedAll',true);
+            });
+        }
+    }
+
     return {
-        GetWords: getWords,
-        DownloadAll: downloadAll
+        GetWords : getWords,
+        DownloadAll : downloadAll,
+        DownloadAllV2 : downloadAllV2
     };
 });
