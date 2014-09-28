@@ -11,6 +11,10 @@
     background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
 }
 
+.card > .letter-item:active{
+     border: 2px solid;
+}
+
 .ion-play{
     cursor: pointer;
     margin-right: 10px;
