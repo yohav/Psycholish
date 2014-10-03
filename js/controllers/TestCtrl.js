@@ -4,17 +4,17 @@
         if($('div[flip-toggle]').hasClass('flipped')){
             $('.card').click();
         }
-    }
+    };
 
     $scope.next = function(){
         $scope.clickCard();
         $scope.changeIndex(true);
-    }
+    };
 
     $scope.back = function(){
         $scope.clickCard();
         $scope.changeIndex(false);
-    }
+    };
 
     $scope.changeIndex = function(up){
         if(up){
@@ -35,7 +35,7 @@
                     ,200);
             }
 
-    }
+    };
 
     $scope.shuffleArray = function(array) {
         var currentIndex = array.length, temporaryValue, randomIndex ;
@@ -54,7 +54,7 @@
         }
 
         return array;
-    }
+    };
 
     $scope.words=[];
     $scope.index = 0;
@@ -81,25 +81,28 @@
             $scope.checkLetter(letter);
         }
         $scope.updateIndex();
-    }
+    };
+
     $scope.updateIndex = function(){
         $scope.index = ($scope.index < $scope.words.length) ? $scope.index : 0;
 
-    }
+    };
+
     $scope.checkLetter = function(letter){
         $scope.letters+=letter;
         wordsService.GetWords(letter)
             .then(function(data){
                 $scope.words = $scope.words.concat(data);
             });
-    }
+    };
+
     $scope.unCheckLetter = function(letter,index){
         $scope.letters = $scope.letters.slice(0, index)+$scope.letters.slice(index + 1);
         $scope.words = $scope.words.filter(
             function(word){
                 return (word.word.charAt(0)!=letter);
             });
-    }
+    };
 
     $scope.changeSpecial = function(special_name){
         var checked = (special_name == 'favorites') ? $scope.checkedFavorites : $scope.checkedPersonal;
@@ -110,7 +113,7 @@
             $scope.checkSpecial(special_name);
         }
         $scope.updateIndex();
-    }
+    };
 
     $scope.checkSpecial = function(special_name){
         $scope.getSpecial(special_name);
@@ -121,7 +124,7 @@
             $scope.checkedPersonal = true;
         }
 
-    }
+    };
 
     $scope.unCheckSpecial = function(special_name){
         $scope.data = (special_name == 'favorites') ? $scope.favorites : $scope.personals;
@@ -135,7 +138,7 @@
         else{
             $scope.checkedPersonal = false;
         }
-    }
+    };
 
     $scope.getSpecial = function(special_name){
         if(special_name == 'favorites'){
@@ -147,7 +150,7 @@
             $scope.personals = personalService.GetPersonal();
             $scope.words = $scope.words.concat($scope.personals);
         }
-    }
+    };
 
     $scope.deleteAll = function(){
         $('input').prop('checked',false);
@@ -159,17 +162,7 @@
         $scope.checkedFavorites = false;
         $scope.checkedPersonal = false;
 
-    }
-
-    $scope.play_sound = function (word,$event) {
-        $event.stopPropagation();
-        var play_button = $($event.currentTarget);
-        var loading = play_button.siblings('img');
-        play_button.attr('hidden',true);
-        loading.attr('hidden',false);
-        var player = new Player(word,function(){play_button.attr('hidden',false); loading.attr('hidden',true); });
-        player.play();
-    }
+    };
 
 });
 

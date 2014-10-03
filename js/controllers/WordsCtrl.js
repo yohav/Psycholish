@@ -20,15 +20,6 @@
     }
 
     $scope.setTabTitle();
-    $scope.play_sound = function (word,$event) {
-        $event.stopPropagation();
-        var play_button = $($event.currentTarget);
-        var loading = play_button.siblings('img');
-        play_button.attr('hidden',true);
-        loading.attr('hidden',false);
-        var player = new Player(word,function(){play_button.attr('hidden',false); loading.attr('hidden',true); });
-        player.play();
-    }
 
     $scope.clearSearch = function () {
         this.query = '';
