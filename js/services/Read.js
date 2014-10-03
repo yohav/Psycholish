@@ -9,10 +9,18 @@ psycholish.factory('Read',function($q){
         this.mywords = words.split(" ");
         this.numOfWords = this.mywords.length;
         this.current = 0;
-        this.audio = new Audio();
-        this.audio.addEventListener('ended',function(){that.next();});
-        this.audio.addEventListener('error',function(){that.error();});
         this.soundUrlNum = 0;
+
+        if(window.media){
+            this.audio = new Media("",function(){that.next();},function(){that.error();});
+        }
+        else{
+            this.audio = new Audio();
+            this.audio.addEventListener('ended',function(){that.next();});
+            this.audio.addEventListener('error',function(){that.error();});
+        }
+
+
 
         this.readWord();
 
@@ -48,6 +56,9 @@ psycholish.factory('Read',function($q){
     };
 
     Reader.prototype.end = function(){
+        if(window.media) {
+            this.audio.release();
+        }
         this.deferred.resolve();
     };
 
