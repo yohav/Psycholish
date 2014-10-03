@@ -4,7 +4,6 @@ psycholish.factory('Read',function($q){
         'http://www.howjsay.com/mp3/'];
     var in_phonegap = typeof Media != "undefined";
     var Reader = function(words){
-        alert(in_phonegap);
         var that = this;
         this.deferred = $q.defer();
         this.mywords = words.split(" ");
@@ -13,7 +12,6 @@ psycholish.factory('Read',function($q){
         this.soundUrlNum = 0;
 
         if(in_phonegap){
-            alert('new sound!');
             this.audio = new Media("",function(){that.next();},function(e){that.error(e);});
         }
         else{
@@ -39,11 +37,8 @@ psycholish.factory('Read',function($q){
 
 
     Reader.prototype.error = function(e){
-        if(e){
-            alert(e);
-            if(e.code == 1){
-                this.end();
-            }
+        if(e && e.code == 1){
+            this.end();
         }
         if(this.soundUrlNum < soundUrls.length - 1) {
             this.soundUrlNum++;
