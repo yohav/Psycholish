@@ -19,6 +19,9 @@ psycholish.factory('Read',function($q){
                 alert('error');
                 that.error();
             };
+            this.audio.mediaStatus = function(status){
+                alert('mediaStatus: '+status);
+            }
         }
         else{
             this.audio = new Audio();
