@@ -12,7 +12,13 @@ psycholish.factory('Read',function($q){
         this.soundUrlNum = 0;
 
         if(in_phonegap){
-            this.audio = new Media("",function(){that.next();},function(){that.error();});
+            this.audio = new Media("",function(){
+                that.next();
+            });
+            this.audio.mediaError = function(){
+                alert('error');
+                that.error();
+            };
         }
         else{
             this.audio = new Audio();
