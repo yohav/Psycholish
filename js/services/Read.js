@@ -2,8 +2,9 @@ psycholish.factory('Read',function($q){
 
     var soundUrls = ['https://ssl.gstatic.com/dictionary/static/sounds/de/0/',
         'http://www.howjsay.com/mp3/'];
-
+    var in_phonegap = typeof Media != "undefined";
     var Reader = function(words){
+        alert(in_phonegap);
         var that = this;
         this.deferred = $q.defer();
         this.mywords = words.split(" ");
@@ -11,7 +12,7 @@ psycholish.factory('Read',function($q){
         this.current = 0;
         this.soundUrlNum = 0;
 
-        if(window.media){
+        if(in_phonegap){
             alert('new sound!');
             this.audio = new Media("",function(){that.next();},function(e){that.error(e);});
         }
@@ -30,10 +31,9 @@ psycholish.factory('Read',function($q){
 
     Reader.prototype.readWord = function(){
         this.audio.src = soundUrls[this.soundUrlNum]+this.mywords[this.current]+'.mp3';
-        if(!window.media) {
+        if(!in_phonegap) {
             this.audio.load();
         }
-        alert(this.audio.src);
         this.audio.play();
     };
 
@@ -66,7 +66,7 @@ psycholish.factory('Read',function($q){
     };
 
     Reader.prototype.end = function(){
-        if(window.media) {
+        if(in_phonegap) {
             this.audio.release();
         }
         this.deferred.resolve();
