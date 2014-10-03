@@ -12,7 +12,7 @@ psycholish.factory('Read',function($q){
         this.soundUrlNum = 0;
 
         if(in_phonegap){
-            this.audio = new Media("",function(){that.next();},function(e){that.error(e);});
+            this.audio = new Media("",function(){that.next();},function(){that.error();});
         }
         else{
             this.audio = new Audio();
@@ -36,10 +36,7 @@ psycholish.factory('Read',function($q){
     };
 
 
-    Reader.prototype.error = function(e){
-        if(e && e.code == 1){
-            this.end();
-        }
+    Reader.prototype.error = function(){
         if(this.soundUrlNum < soundUrls.length - 1) {
             this.soundUrlNum++;
             this.readWord();
