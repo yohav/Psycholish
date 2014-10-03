@@ -12,8 +12,7 @@ psycholish.factory('Read',function($q){
         this.soundUrlNum = 0;
 
         if(window.media){
-            alert('new sound!');
-            this.audio = new Media("",function(){that.next();},function(){that.error();});
+            this.audio = new Media("",function(){that.next();},function(e){that.error(e);});
         }
         else{
             this.audio = new Audio();
@@ -33,12 +32,17 @@ psycholish.factory('Read',function($q){
         if(!window.media) {
             this.audio.load();
         }
-        alert(this.audio.src);
         this.audio.play();
     };
 
 
-    Reader.prototype.error = function(){
+    Reader.prototype.error = function(e){
+        if(e){
+            alert(e);
+            if(e.code == 1){
+                this.end();
+            }
+        }
         if(this.soundUrlNum < soundUrls.length - 1) {
             this.soundUrlNum++;
             this.readWord();

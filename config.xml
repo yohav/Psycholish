@@ -26,4 +26,7 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
 
 
+    <icon src="icon.png" />
+    <gap:splash src="splash.png" />
+
 </widget>
