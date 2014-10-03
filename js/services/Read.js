@@ -12,6 +12,7 @@ psycholish.factory('Read',function($q){
         this.soundUrlNum = 0;
 
         if(window.media){
+            alert('new sound!');
             this.audio = new Media("",function(){that.next();},function(e){that.error(e);});
         }
         else{
@@ -32,6 +33,7 @@ psycholish.factory('Read',function($q){
         if(!window.media) {
             this.audio.load();
         }
+        alert(this.audio.src);
         this.audio.play();
     };
 
