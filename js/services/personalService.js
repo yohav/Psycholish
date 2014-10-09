@@ -27,7 +27,8 @@
                 localWordService.SetStorage('personalWords');
                 var wordExists = localWordService.HasWord($scope.myword);
                 if(isGood && !wordExists){
-                    localWordService.SaveWord($scope,$scope.myword);
+                    localWordService.SaveWord($scope.myword);
+                    $scope.words.push($scope.myword);
                 }
                 else{
                     handleError(isGood,wordExists);

@@ -1,5 +1,4 @@
 psycholish.controller('IntroCtrl', function($scope, $state,usersService,wordsService){
-    wordsService.DownloadAllV2();
     $scope.slideChanged = function(index) {
         $scope.slideIndex = index;
     };
@@ -9,6 +8,10 @@ psycholish.controller('IntroCtrl', function($scope, $state,usersService,wordsSer
     }
     $scope.login = function(){
         usersService.Login(function(){ $state.go('tabs.letters');});
+    }
+
+    $scope.download = function(){
+        wordsService.DownloadAll().then(function(){$scope.enterApp();});
     }
 
     if(usersService.IsLoggedIn() ){

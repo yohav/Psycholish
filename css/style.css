@@ -82,10 +82,24 @@ font-size: 25px;
     width:23px;
 }
 
+.happyicon{
+    font-size: 30px;
+    margin: -3px 1px 8px 8px;
+    float:left;
+    width:23px;
+}
+
+.happy{
+    color:green;
+}
+
 .profile{
    text-align: center;
 }
 
+.direction-btn{
+    margin-right: 5px;
+}
 /*test tab*/
 .slider {
     height: 100%;
@@ -145,11 +159,13 @@ div[flip-toggle]{
     padding-left: 50px;
 }
 
-.play-button-in-card , .loading-sound-in-card{
+.word-buttons-in-card{
     position: absolute;
-    left: 0;
-    margin-left: 10px;
-    margin-top: 10px;
+    left: 2px;
+    top: 0;
+}
+.word-buttons-in-card *{
+    float: none !important;
 }
 
 .local-word-input{
@@ -162,5 +178,9 @@ div[flip-toggle]{
 }
 
 .add-word-button{
+    margin-right: 10px;
+}
+
+.settings-button{
     margin-right: 10px;
 }

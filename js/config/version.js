@@ -1,0 +1,1 @@
+psycholish.constant('version','1.0');

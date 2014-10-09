@@ -1,5 +1,6 @@
-psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
+psycholish.factory("wordsService", function ($q, $http,$ionicLoading,version) {
     var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    var downloadAllProperty = 'downloadedAll'+version;
     var getWords = function (letter) {
         var storage = localStorage.getItem(letter+'_letter');
         $ionicLoading.show({
@@ -15,13 +16,13 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
         else{
             return getWordsHTTP(letter,deferred);
         }
-    }
+    };
 
     var getWordsFromStorage = function(storage,deferred){
         deferred.resolve(JSON.parse(storage));
         $ionicLoading.hide();
         return deferred.promise;
-    }
+    };
 
     var getWordsHTTP = function(letter,deferred){
         var url = psycholish.baseAdress+'controllers/WordsController.php?letter='+letter;
@@ -37,7 +38,7 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
                 $ionicLoading.hide();
             });
         return deferred.promise;
-    }
+    };
 
     var getAllWords = function(){
         var deferred = $q.defer();
@@ -54,21 +55,14 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
         return deferred.promise;
     }
 
-    var downloadAll = function(index){
-        var downloadedAll = localStorage.getItem('downloadedAll');
-        if(downloadedAll == null){
-            if(index < alphabet.length){
-                getWordsHTTP(alphabet[index],$q.defer()).then(downloadAll(index + 1));
-            }
-            else{
-                localStorage.setItem('downloadedAll',true);
-            }
-        }
-    }
-
-    var downloadAllV2 = function(){
-        var downloadedAll = localStorage.getItem('downloadedAll');
-        if(downloadedAll == null){
+    var downloadAll = function(){
+        var deferred = $q.defer();
+        if(!isDownloadAll()){
+            $ionicLoading.show({
+                template: '<i class="icon ion-loading-d" style="font-size: 32px"></i>',
+                animation: 'fade-in',
+                noBackdrop: false
+            });
             getAllWords().then(function(data){
                 var x = new Array(26);
                 for (var i = 0; i < 26; i++) {
@@ -81,15 +75,25 @@ psycholish.factory("wordsService", function ($q, $http,$ionicLoading) {
                     var letter = alphabet[i];
                     localStorage.setItem(letter+'_letter',JSON.stringify(x[letter]));
                 }
-                console.log('download');
-                localStorage.setItem('downloadedAll',true);
+                console.log('downloaded all');
+                localStorage.setItem(downloadAllProperty,true);
+                $ionicLoading.hide();
+                deferred.resolve();
             });
         }
-    }
+        else{
+            deferred.resolve();
+        }
+        return deferred.promise;
+    };
+
+    var isDownloadAll = function(){
+        return localStorage.getItem(downloadAllProperty) != null;
+    };
 
     return {
         GetWords : getWords,
         DownloadAll : downloadAll,
-        DownloadAllV2 : downloadAllV2
+        IsDownloadAll: isDownloadAll
     };
 });

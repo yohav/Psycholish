@@ -1,4 +1,4 @@
-﻿psycholish.controller('WordsCtrl', function ($scope, words,favoriteService,$state,$stateParams,$ionicPopup,personalService) {
+﻿psycholish.controller('WordsCtrl', function ($scope,$state,$stateParams,$ionicPopup,$ionicActionSheet,words) {
 
 
 
@@ -8,6 +8,8 @@
     $scope.letter = $stateParams.letter;
     $scope.allDefinitionsVisible = false;
     $scope.words = words;
+    $scope.predicate = 'word';
+    $scope.orderUp = false;
 
     $scope.setTabTitle = function(){
         if ($scope.inFavorites){
@@ -17,13 +19,14 @@
             $scope.tabTitle =  'מילים אישיות';
         }
         else $scope.tabTitle =  $scope.letter;
-    }
+    };
 
     $scope.setTabTitle();
 
     $scope.clearSearch = function () {
         this.query = '';
-    }
+    };
+
     $scope.toggleAllDefinitions = function () {
         $scope.allDefinitionsVisible = !$scope.allDefinitionsVisible;
         $.each($scope.words, function (index, word) {
@@ -32,80 +35,46 @@
         $.each($scope.words, function (index, word) {
             word["clicked"] = $scope.allDefinitionsVisible;
         });
-    }
-    $scope.toggleFavorite = function(word,$event){
-        $event.stopPropagation();
-        if($scope.inPersonal){
-            $scope.deletePopup(word);
-        }
-        else
-            if($scope.inFavorites){
-                $scope.deletePopup(word);
-            }
-            else{
-                $scope.regularToggleFavorite(word);
-            }
+    };
 
-
-    }
-
-    $scope.deletePopup = function(word){
-
-        var popup = $ionicPopup.show({
-            template: '<p dir="rtl">האם אתה בטוח שברצונך למחוק מילה זו מ'+$scope.tabTitle+'</p>',
-            title: '<b>אישור מחיקה</b>',
-            scope: $scope,
-            buttons: [
-                {   text:'לא' ,
-                    type: 'button-assertive',
-                    onTap: function(e) {return false}
-                },
-                {
-                    text: 'כן',
-                    type: 'button-positive',
-                    onTap: function(e) {return true}
-                },
-            ]
-        });
-        popup.then(function(res) {
-            if(res){
-                $scope.regularToggleFavorite(word);
-            }
-        });
-    }
-
-
-    $scope.regularToggleFavorite = function(word){
-        if(word.favorited == undefined){
-            personalService.DeletePersonal(word);
-        }
-        else{
-            word.favorited = !word.favorited;
-            favoriteService.ChangeFavorite(word,word.favorited,$scope);
-        }
-        if($scope.inFavorites || $scope.inPersonal){
-            var index = $scope.words.indexOf(word);
-            $scope.words.splice(index, 1);
-        }
-    }
 
     $scope.addNewWord = function(){
         personalService.AddNewPersonalPopup($scope);
-    }
+    };
 
-    $scope.getFavoriteIcon = function(word){
-        if(word == undefined){
-            return;
-        }
-        if($scope.inPersonal){
-            return 'ion-ios7-trash';
-        }
-        if(word.favorited)
-            return 'ion-ios7-heart';
-        else{
-            return 'ion-ios7-heart-outline';
-        }
-    }
+    $scope.changeOrder = function(){
+        $ionicActionSheet.show({
+            buttons: [
+                { text: 'ABC' },
+                { text: 'מועדפים' },
+                { text: 'ידע' }
+            ],
+            titleText: 'מיין לפי',
+            cancelText: 'ביטול',
+            cancel: function() {
 
+            },
+            buttonClicked: function(index) {
+                switch(index){
+                    case 0:
+                        $scope.predicate = 'word';
+                        break;
+                    case 1:
+                        $scope.predicate = '-favorited';
+                        break;
+                    case 2:
+                        $scope.predicate = '-happy';
+                        break;
+                }
+                return true;
+            }
+        });
+    };
+
+    $scope.changeOrderDirection = function(){
+        $scope.orderUp = ! $scope.orderUp;
+        $scope.predicate = "-"+$scope.predicate;
+        $scope.predicate = $scope.predicate.replace("--","");
+    }
 
 });

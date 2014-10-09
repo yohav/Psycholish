@@ -1,13 +1,25 @@
 <ion-view title="בחינה עצמית" class="padding">
+    <ion-nav-buttons>
+        <button class="button button-positive settings-button"
+                ng-click="changeOrder()">
+            <i class="icon ion-settings"></i>
+        </button>
+    <button class="button direction-btn"
+            ng-click="changeOrderDirection()">
+        <i class="icon" ng-class="{'ion-arrow-up-c': orderUp,'ion-arrow-down-c': !orderUp}"></i>
+    </button>
+    </ion-nav-buttons>
     <ion-content>
             <div class="row">
                 <div class="col">
                     <flip flip-toggle horizontal ng-swipe-right="back()" ng-swipe-left="next()">
                         <flip-front>
                             {{words[index].word}}
-                            <sound text="words[index].word" ng-if="words.length" icon-class="'play-button-in-card'"></sound>
+                            <word-buttons word="words[index]" words="words" show-favorite="false" ng-if="words.length" class="word-buttons-in-card"></word-buttons>
                         </flip-front>
-                        <flip-back dir="rtl">{{words[index].definition}}</flip-back>
+                        <flip-back dir="rtl">
+                            {{words[index].definition}}
+                        </flip-back>
                     </flip>
                 </div>
             </div>
@@ -45,11 +57,14 @@
                  </div>
 
             <div class="row">
-                <div class="col col-50">
-                        <button ng-click="shuffleArray(words)" class="button button-calm shuffle-button">ערבוב</button>
+                <div class="col col-33">
+                        <button ng-click="shuffle()" class="button button-calm shuffle-button">ערבוב</button>
                 </div>
-                <div class="col col-50">
-                        <button ng-click="deleteAll()" class="button button-calm reset-button">אתחול</button>
+                <div class="col col-33">
+                        <button ng-click="deleteAll()" class="button button-calm reset-button">אפס</button>
+                </div>
+                <div class="col col-33">
+                    <button ng-click="chooseAll()" class="button button-calm reset-button">הכל</button>
                 </div>
             </div>
         </div>

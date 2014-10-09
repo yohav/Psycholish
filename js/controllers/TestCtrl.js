@@ -1,5 +1,4 @@
-﻿psycholish.controller('TestCtrl', function ($scope,$timeout,wordsService,favoriteService,$state,personalService) {
-
+﻿psycholish.controller('TestCtrl', function ($scope,$timeout,$filter,$state,$ionicActionSheet,wordsService,localWordsProxyService,letterRows,personalService,happyWords,favoriteWords) {
    $scope.clickCard = function(){
         if($('div[flip-toggle]').hasClass('flipped')){
             $('.card').click();
@@ -37,39 +36,18 @@
 
     };
 
-    $scope.shuffleArray = function(array) {
-        var currentIndex = array.length, temporaryValue, randomIndex ;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
+    $scope.shuffle = function(){
+        $filter('shuffle')($scope.words);
     };
 
     $scope.words=[];
     $scope.index = 0;
-    $scope.rows = [
-        ["A", "B", "C", "D"],
-        ["E", "F", "G", "H"],
-        ["I", "J", "K", "L"],
-        ["M", "N", "O", "P"],
-        ["Q", "R", "S", "T"],
-        ["U", "V", "W", "X"],
-        ["Y", "Z"]
-    ];
+    $scope.rows = letterRows;
     $scope.letters = "";
     $scope.checkedFavorites = false;
     $scope.checkedPersonal = false;
+    $scope.predicate = 'word';
+    $scope.orderUp = false;
 
     $scope.changeLetter = function(letter){
         letter = letter.toLowerCase();
@@ -80,11 +58,12 @@
         else {
             $scope.checkLetter(letter);
         }
-        $scope.updateIndex();
+
     };
 
     $scope.updateIndex = function(){
         $scope.index = ($scope.index < $scope.words.length) ? $scope.index : 0;
+        $scope.sort();
 
     };
 
@@ -93,6 +72,11 @@
         wordsService.GetWords(letter)
             .then(function(data){
                 $scope.words = $scope.words.concat(data);
+                $.each($scope.words, function (index, word) {
+                    favoriteWords.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
+                    happyWords.indexOf(word.id) > -1 ? word["happy"]= true : word["happy"] = false;
+                });
+                $scope.updateIndex();
             });
     };
 
@@ -102,6 +86,7 @@
             function(word){
                 return (word.word.charAt(0)!=letter);
             });
+        $scope.updateIndex();
     };
 
     $scope.changeSpecial = function(special_name){
@@ -142,7 +127,7 @@
 
     $scope.getSpecial = function(special_name){
         if(special_name == 'favorites'){
-            $scope.favorites = favoriteService.GetFavorites();
+            $scope.favorites = localWordsProxyService.GetFavorites('favoriteWords');
             $scope.words = $scope.words.concat($scope.favorites);
 
         }
@@ -150,6 +135,10 @@
             $scope.personals = personalService.GetPersonal();
             $scope.words = $scope.words.concat($scope.personals);
         }
+        $.each($scope.words, function (index, word) {
+            favoriteWords.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
+            happyWords.indexOf(word.id) > -1 ? word["happy"]= true : word["happy"] = false;
+        });
     };
 
     $scope.deleteAll = function(){
@@ -161,8 +150,61 @@
         $scope.updateIndex();
         $scope.checkedFavorites = false;
         $scope.checkedPersonal = false;
-
     };
+
+    $scope.chooseAll = function(){
+        if($('input:checked').length != 28)
+        {
+            $scope.deleteAll();
+            $('input').prop('checked', true);
+            $scope.checkSpecial('favorites');
+            $scope.checkSpecial('personal');
+            $.each($scope.rows, function (row_index, row) {
+                $.each(row, function (letter_index, letter) {
+                    $scope.checkLetter(letter.toLowerCase());
+                });
+            });
+            $scope.updateIndex();
+        }
+    }
+
+    $scope.changeOrder = function(){
+        $ionicActionSheet.show({
+            buttons: [
+                { text: 'ABC' },
+                { text: 'ידע' }
+            ],
+            titleText: 'מיין לפי',
+            cancelText: 'ביטול',
+            cancel: function() {
+
+            },
+            buttonClicked: function(index) {
+                switch(index){
+                    case 0:
+                        $scope.predicate = 'word';
+                        break;
+                    case 1:
+                        $scope.predicate = '-happy';
+                        break;
+                }
+                $scope.sort();
+                return true;
+            }
+        });
+    };
+
+    $scope.sort = function(){
+        $scope.words = $filter('orderBy')($scope.words, [$scope.predicate,'word']);
+    };
+
+    $scope.changeOrderDirection = function(){
+        $scope.orderUp = ! $scope.orderUp;
+        $scope.predicate = "-"+$scope.predicate;
+        $scope.predicate = $scope.predicate.replace("--","");
+        $scope.sort();
+
+    }
 
 });
 
