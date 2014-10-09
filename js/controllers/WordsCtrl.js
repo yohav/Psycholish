@@ -16,7 +16,7 @@
             $scope.tabTitle =  'מועדפים' ;
         }
         else if ($scope.inPersonal){
-            $scope.tabTitle =  'מילים אישיות';
+            $scope.tabTitle =  'אישי';
         }
         else $scope.tabTitle =  $scope.letter;
     };
