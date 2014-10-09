@@ -55,7 +55,8 @@
         DeleteWord: deleteWord,
         SaveWord: saveWord,
         HasWord: hasWord,
-        SetStorage: setStorage
+        SetStorage: setStorage,
+        InitStorage:initLocalWords
     }
 
 });
