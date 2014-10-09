@@ -1,18 +1,149 @@
 <ion-view title="Psycholish">
     <ion-slide-box on-slide-changed="slideChanged(index)">
+
         <ion-slide dir="rtl">
-            <h3>ברוכים הבאים לאפליקציית Psycholish</h3>
-            <p>זוהי אפליקציה שנועדה לנבחנים בפסיכומטרי</h3>
-            <p>האפליקציה כוללת את רשימת המילים באנגלית של המבחן</p>
+            <h3>ברוכים הבאים !</h3>
+            <p>האפליקציה תעזור לכם ללמוד את רשימת המילים באנגלית לפסיכומטרי</p>
+            <p>אין להסתמך אך ורק על האפליקציה</p>
+            <p>על מנת להתכונן היטב לחלק האנגלית במבחן מומלץ לשלב קריאת ספרים</p>
         </ion-slide>
-        <ion-slide>
-            <h3>הוראות שימוש</h3>
-            <p>ניתן לראות או להסתיר פירוש של מילה על ידי לחיצה עליה</p>
-            <p>לחיצה על הכפתור שנמצא ליד כל מילה, ישמיע את המילה</p>
+
+        <ion-slide  dir="rtl">
+            <h3>מסכים</h3>
+            <img src="img/tabs.PNG">
+            <div>
+                <span>בחירת אות וכניסה לרשימת המילים</span>
+                <i class="icon ion-clipboard intro-icon"></i>
+            </div>
+            <div>
+                <span>רשימת המועדפים שלך</span>
+                <i class="icon ion-ios7-star intro-icon"></i>
+            </div>
+            <div>
+                <span>רשימת המילים האישיות שלך</span>
+                <i class="icon ion-ios7-person intro-icon"></i>
+            </div>
+            <div>
+                <span>מסך הבחינה העצמית</span>
+                <i class="icon ion-ios7-help intro-icon"></i>
+            </div>
         </ion-slide>
-        <ion-slide>
-            <p>על מנת להשתמש באפליקציה יש צורך בהורדה חד-פעמית</p>
+
+        <ion-slide dir="rtl">
+            <h3>אפשרויות מילה</h3>
+            <p>לחץ על המילה לחשיפת הפירוש</p>
+            <div>
+                <span>הוספה/הסרה ממועדפים</span>
+                <i class="icon ion-ios7-star intro-icon"></i>
+            </div>
+            <div>
+                <span>השמעת המילה</span>
+                <img class="play-button intro-icon" src="img/play.svg"/>
+            </div>
+            <div>
+                <span>דירוג המילה - ירוק = יודע</span>
+                <i class="icon ion-happy happyicon happy intro-icon"></i>
+            </div>
+            <p>נסה עכשיו :</p>
+            <div class="list">
+                <a class="item word-item"
+                   ng-click="word.clicked=!word.clicked"
+                   style="position: absolute;">
+                    <div class="my-word">
+                        <word-buttons word="word" words="words" show-favorite="true" ></word-buttons>
+                        <p class="word-p">
+                            {{word.word}}
+                        </p>
+                        <p dir="rtl" class="definition" ng-hide="!word.clicked">
+                            {{word.definition}}
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </ion-slide>
+
+        <ion-slide dir="rtl">
+            <h3>אפשריות נוספות</h3>
+            <div>
+                <span style="vertical-align: top;">חשיפת כל הפירושים</span>
+                <label class="toggle toggle-calm">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="row">
+                <span class="col-20">חיפוש מילים</span>
+                <div id="search-box" class="item-input-inset col-80">
+                    <div class="item-input-wrapper">
+                        <i class="icon ion-ios7-search placeholder-icon"></i>
+                        <input type="search" placeholder="חיפוש"  ng-model="query">
+                        <i class="icon ion-ios7-close placeholder-icon" ng-click="query=''"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <span>מיון</span>
+                <button class="button button-positive intro-icon" ng-click="changeOrder()">
+                    <i class="icon ion-settings"></i>
+                </button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span style="margin-right: 5px;">סדר המיון</span>
+                <button class="button button-positive intro-icon" ng-click="order_clicked=!order_clicked">
+                    <i class="icon" ng-class="{'ion-arrow-up-c': order_clicked,'ion-arrow-down-c': !order_clicked}"></i>
+                </button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span>הוספת מילה אישית</span>
+                <button class="button button-positive intro-icon">
+                    <i class="icon ion-plus"></i>
+                </button>
+            </div>
+        </ion-slide>
+
+        <ion-slide dir="rtl">
+            <h3>בחינה עצמית</h3>
+            <p>בחלק זה ניתן לבחור על אילו מילים ברצונך להבחן</p>
+            <p>לחיצה על המילה תהפוך את הכרטיס ותחשוף את הפירוש</p>
+            <p>החלקה ימינה/שמאלה למעבר מילה</p>
+            <span style=" display: inline-block;">
+                <ul class="list">
+                    <li class="item">
+בחר אותי -
+                        <label class="checkbox"  style="padding: 0;">
+                            <input ng-click="toggleWords();" type="checkbox">
+                        </label>
+                    </li>
+                </ul>
+            </span>
+            <span>(בטל כדי להמשיך למסך הבא)</span>
+            <div class="row">
+                <div class="col">
+                    <flip flip-toggle horizontal ng-swipe-right="back($event)" ng-swipe-left="next($event)">
+                        <flip-front>
+                            {{words[index].word}}
+                            <word-buttons word="words[index]" words="words" show-favorite="false" class="word-buttons-in-card" ng-if="words.length"  style="left: 15px;"></word-buttons>
+                        </flip-front>
+                        <flip-back dir="rtl">
+                            {{words[index].definition}}
+                        </flip-back>
+                    </flip>
+                </div>
+            </div>
+        </ion-slide>
+
+        <ion-slide dir="rtl">
+            <h3>הורדת המילים</h3>
+            <p>על מנת להשתמש באפליקציה יש צורך בהורדה חד-פעמית של רשימת המילים העדכנית</p>
             <div><button ng-click="download()" class="button button-positive">הורדה וכניסה</button></div>
+            <b>בהצלחה בבחינה !</b>
         </ion-slide>
+
     </ion-slide-box>
 </ion-view>

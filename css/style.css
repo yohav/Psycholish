@@ -184,3 +184,11 @@ div[flip-toggle]{
 .settings-button{
     margin-right: 10px;
 }
+
+.intro-icon {
+    font-size: 30px;
+    width: 23px;
+    margin-right: 5px;
+    display: inline-block;
+    float: none;
+}
