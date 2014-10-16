@@ -1,33 +1,24 @@
 <ion-view title="בחינה" class="padding">
     <ion-nav-buttons>
-        <button ng-if="words.length!=0"
-                class="button button-positive settings-button"
-                ng-click="changeOrder()">
-            <i class="icon ion-settings"></i>
-        </button>
-    <button ng-if="words.length!=0"
-            class="button direction-btn"
-            ng-click="changeOrderDirection()">
-        <i class="icon" ng-class="{'ion-arrow-up-c': orderUp,'ion-arrow-down-c': !orderUp}"></i>
-    </button>
+        <sort-buttons words="words" should-sort="true"></sort-buttons>
     </ion-nav-buttons>
     <ion-content>
             <div class="row">
                 <div class="col">
-                    <flip flip-toggle horizontal ng-swipe-right="back()" ng-swipe-left="next()">
-                        <flip-front>
-                            {{words[index].word}}
-                            <word-buttons word="words[index]" words="words" show-favorite="false" ng-if="words.length" class="word-buttons-in-card"></word-buttons>
+                    <flip word="{{words[index].word}}" flip-toggle horizontal ng-swipe-right="change_card($event,false)" ng-swipe-left="change_card($event,true)">
+                        <flip-front class="word-word">
+                            {{words[index].word || 'no words'}}
                         </flip-front>
-                        <flip-back dir="rtl">
-                            {{words[index].definition}}
+                        <flip-back dir="rtl" class="word-definition">
+                            {{words[index].definition || 'אין מילים'}}
                         </flip-back>
                     </flip>
                 </div>
+
             </div>
         <div>
                 <div class="row">
-                        <div class="col col-100">
+                        <div class="col col-50 col-offset-25">
                             <div class="card-index">
                                 {{words.length ? (index+1) : 0}} / {{words.length || '0'}}
                             </div>

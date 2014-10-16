@@ -1,4 +1,4 @@
-﻿psycholish.controller('WordsCtrl', function ($scope,$state,$stateParams,$ionicPopup,$ionicActionSheet,words) {
+﻿psycholish.controller('WordsCtrl', function ($scope,$state,$stateParams,$ionicPopup,$ionicActionSheet,words,personalService,Read,localWordsProxyService) {
 
 
 
@@ -9,7 +9,6 @@
     $scope.allDefinitionsVisible = false;
     $scope.words = words;
     $scope.predicate = 'word';
-    $scope.orderUp = false;
 
     $scope.setTabTitle = function(){
         if ($scope.inFavorites){
@@ -24,7 +23,7 @@
     $scope.setTabTitle();
 
     $scope.clearSearch = function () {
-        this.query = '';
+        $scope.search = '';
     };
 
     $scope.toggleAllDefinitions = function () {
@@ -42,39 +41,71 @@
         personalService.AddNewPersonalPopup($scope);
     };
 
-    $scope.changeOrder = function(){
-        $ionicActionSheet.show({
-            buttons: [
-                { text: 'ABC' },
-                { text: 'מועדפים' },
-                { text: 'ידע' }
-            ],
-            titleText: 'מיין לפי',
-            cancelText: 'ביטול',
-            cancel: function() {
+    $scope.toggleFavorite = function(word){
+        if($scope.inFavorites){
+            $scope.deletePopup(word);
+        }
+        else{
+            $scope.regularToggleFavorite(word);
+        }
+    };
 
-            },
-            buttonClicked: function(index) {
-                switch(index){
-                    case 0:
-                        $scope.predicate = 'word';
-                        break;
-                    case 1:
-                        $scope.predicate = '-favorited';
-                        break;
-                    case 2:
-                        $scope.predicate = '-happy';
-                        break;
+    $scope.regularToggleFavorite = function(word){
+            word.favorited = !word.favorited;
+            localWordsProxyService.ChangeFavorite(word,word.favorited,'favoriteWords');
+
+        if($scope.inFavorites){
+            var index = $scope.words.indexOf(word);
+            $scope.words.splice(index, 1);
+        }
+    };
+
+    $scope.deletePersonal = function(word){
+        personalService.DeletePersonal(word);
+        localWordsProxyService.ChangeFavorite(word,false,'favoriteWords');
+        var index = $scope.words.indexOf(word);
+        $scope.words.splice(index, 1);
+    };
+
+    $scope.deletePopup = function(word,$event){
+        if($event){
+            $event.stopPropagation();
+        }
+        var category = $scope.inPersonal ? 'מילים אישיות' :'מועדפים';
+        var popup = $ionicPopup.show({
+            template: '<p dir="rtl">האם אתה בטוח שברצונך למחוק מילה זו מ'+category+'</p>',
+            title: '<b>אישור מחיקה</b>',
+            scope: $scope,
+            buttons: [
+                {   text:'לא' ,
+                    type: 'button-assertive',
+                    onTap: function(e) {
+                        return false;
+                    }
+                },
+                {
+                    text: 'כן',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        return true;
+                    }
                 }
-                return true;
+            ]
+        });
+        popup.then(function(res) {
+            if(res){
+                if($scope.inFavorites) {
+                    $scope.regularToggleFavorite(word);
+                }
+                else{
+                    $scope.deletePersonal(word);
+                }
             }
         });
     };
 
-    $scope.changeOrderDirection = function(){
-        $scope.orderUp = ! $scope.orderUp;
-        $scope.predicate = "-"+$scope.predicate;
-        $scope.predicate = $scope.predicate.replace("--","");
+    $scope.read_word= function(word){
+        Read.Reader(word)
     }
 
 });

@@ -3,7 +3,7 @@ psycholish.factory('localWordsProxyService',function(localWordService){
         localWordService.SetStorage(storageName);
         return localWordService.GetWords() || [];
     }
-    var changeFavorite = function(word,isAdd,$scope,storageName){
+    var changeFavorite = function(word,isAdd,storageName){
         localWordService.SetStorage(storageName);
         if(isAdd){
             localWordService.SaveWord({'id':word.id,'word':word.word, 'definition': word.definition});
@@ -11,7 +11,7 @@ psycholish.factory('localWordsProxyService',function(localWordService){
         else{
             localWordService.DeleteWord(word);
         }
-    }
+    };
     return {
         GetFavorites : getFavorites,
         ChangeFavorite: changeFavorite

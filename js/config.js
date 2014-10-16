@@ -19,11 +19,8 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                     resolve:{
                         words: function(localWordsProxyService){
                                 var favorites = localWordsProxyService.GetFavorites('favoriteWords');
-                                var happyWords = localWordsProxyService.GetFavorites('happyWords');
-                                happyWords = happyWords.map(function(happy) {return happy.id});
                                 $.each(favorites, function (index, word) {
                                     word["favorited"] = true;
-                                    happyWords.indexOf(word.id) > -1 ? word["happy"]= true : word["happy"] = false;
                                 });
                                 return favorites;
                         }
@@ -40,10 +37,10 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                     resolve:{
                         words: function(personalService, localWordsProxyService){
                             var personal =  personalService.GetPersonal();
-                            var happyWords = localWordsProxyService.GetFavorites('happyWords');
-                            happyWords = happyWords.map(function(happy) {return happy.id});
+                            var favorites = localWordsProxyService.GetFavorites('favoriteWords');
+                            favorites = favorites.map(function(favorite) {return favorite.id});
                             $.each(personal, function (index, word) {
-                                happyWords.indexOf(word.id) > -1 ? word["happy"]= true : word["happy"] = false;
+                                favorites.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
                             });
                             return personal;
                         }
@@ -58,10 +55,6 @@ psycholish.config(function ($stateProvider, $urlRouterProvider) {
                     templateUrl: "test.html",
                     controller: 'TestCtrl',
                     resolve:{
-                        happyWords: function(localWordsProxyService){
-                            var happyWords = localWordsProxyService.GetFavorites('happyWords');
-                            return happyWords.map(function(happy) {return happy.id});
-                        },
                         favoriteWords: function(localWordsProxyService) {
                             var favorites =  localWordsProxyService.GetFavorites('favoriteWords');
                             return favorites.map(function(favorite) {return favorite.id});

@@ -1,18 +1,35 @@
-﻿psycholish.controller('TestCtrl', function ($scope,$timeout,$filter,$state,$ionicActionSheet,wordsService,localWordsProxyService,letterRows,personalService,happyWords,favoriteWords) {
-   $scope.clickCard = function(){
+﻿psycholish.controller('TestCtrl', function (Read,$animate,$scope,$timeout,$filter,$state,$ionicActionSheet,wordsService,localWordsProxyService,letterRows,personalService,favoriteWords) {
+
+    $scope.$on('flipped',function(){
+        $scope.readWord($('.front .word-container'));
+    });
+
+    $scope.change_card = function($event,right_or_left){
+        $scope.changeIndex(right_or_left);
+        var elem = angular.element($event.target);
         if($('div[flip-toggle]').hasClass('flipped')){
             $('.card').click();
         }
+        else {
+            var flip_card = elem.parents('.flip');
+            var cssClass = right_or_left ? 'move-right' : 'move-left';
+            $animate.addClass(flip_card,cssClass, function () {
+                flip_card.removeClass(cssClass);
+                $scope.readWord(elem);
+            });
+        }
     };
 
-    $scope.next = function(){
-        $scope.clickCard();
-        $scope.changeIndex(true);
-    };
-
-    $scope.back = function(){
-        $scope.clickCard();
-        $scope.changeIndex(false);
+    $scope.readWord = function(elem){
+        $timeout(function(){
+            var word = $scope.words[$scope.index];
+            if(word) {
+                elem.find('span').css('color','#4a87ee');
+                Read.Reader(word.word).then(function () {
+                    elem.find('span').css('color', 'black')
+                });
+            }
+        },300);
     };
 
     $scope.changeIndex = function(up){
@@ -46,8 +63,6 @@
     $scope.letters = "";
     $scope.checkedFavorites = false;
     $scope.checkedPersonal = false;
-    $scope.predicate = 'word';
-    $scope.orderUp = false;
 
     $scope.changeLetter = function(letter){
         letter = letter.toLowerCase();
@@ -74,7 +89,6 @@
                 $scope.words = $scope.words.concat(data);
                 $.each($scope.words, function (index, word) {
                     favoriteWords.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
-                    happyWords.indexOf(word.id) > -1 ? word["happy"]= true : word["happy"] = false;
                 });
                 $scope.updateIndex();
             });
@@ -137,7 +151,6 @@
         }
         $.each($scope.words, function (index, word) {
             favoriteWords.indexOf(word.id) > -1 ? word["favorited"]= true : word["favorited"] = false;
-            happyWords.indexOf(word.id) > -1 ? word["happy"]= true : word["happy"] = false;
         });
     };
 
@@ -166,45 +179,7 @@
             });
             $scope.updateIndex();
         }
-    }
-
-    $scope.changeOrder = function(){
-        $ionicActionSheet.show({
-            buttons: [
-                { text: 'ABC' },
-                { text: 'ידע' }
-            ],
-            titleText: 'מיין לפי',
-            cancelText: 'ביטול',
-            cancel: function() {
-
-            },
-            buttonClicked: function(index) {
-                switch(index){
-                    case 0:
-                        $scope.predicate = 'word';
-                        break;
-                    case 1:
-                        $scope.predicate = '-happy';
-                        break;
-                }
-                $scope.sort();
-                return true;
-            }
-        });
     };
-
-    $scope.sort = function(){
-        $scope.words = $filter('orderBy')($scope.words, [$scope.predicate,'word']);
-    };
-
-    $scope.changeOrderDirection = function(){
-        $scope.orderUp = ! $scope.orderUp;
-        $scope.predicate = "-"+$scope.predicate;
-        $scope.predicate = $scope.predicate.replace("--","");
-        $scope.sort();
-
-    }
 
 });
 

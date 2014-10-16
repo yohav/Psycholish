@@ -1,14 +1,32 @@
+@font-face {
+    font-family: 'Gan';
+    src: url('../fonts/ganclm_bold-webfont.eot');
+    src: url('../fonts/ganclm_bold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/ganclm_bold-webfont.woff') format('woff'),
+    url('../fonts/ganclm_bold-webfont.ttf') format('truetype'),
+    url('../fonts/ganclm_bold-webfont.svg#gan_clmbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'Yanone';
+    src: url('../fonts/yanonekaffeesatz-regular-webfont.eot');
+    src: url('../fonts/yanonekaffeesatz-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/yanonekaffeesatz-regular-webfont.woff') format('woff'),
+    url('../fonts/yanonekaffeesatz-regular-webfont.ttf') format('truetype'),
+    url('../fonts/yanonekaffeesatz-regular-webfont.svg#yanone_kaffeesatzregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
 .card > .letter-item{
     text-align: center;
     font-weight: bold;
     cursor: pointer;
-    background: #1e5799; /* Old browsers */
-    background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
 }
 
 .card > .letter-item:active{
@@ -23,8 +41,16 @@
     min-width: 0px;
 }
 
-.definition{
-    float:right;
+.word-definition, .word-definition *{
+    font-family: 'Gan';
+    color: black;
+    font-size: 20px;
+
+}
+
+.word-word, .word-word *{
+    font-family: 'Yanone';
+    font-size: 20px;
 }
 
 .toggle{
@@ -112,24 +138,25 @@ font-size: 25px;
 }
 
 .word-container{
-    height: 100px;
+    height: 200px;
     text-align: center;
-    line-height: 100px;
-    background: #7db9e8;
-    font-weight: bold;
+    display: table-cell;
+    vertical-align: middle;
+    max-width: 100px;
 }
+
+
 .flip{
     margin-bottom:20px;
 }
 div[flip-toggle]{
-    height:100px;
+    height:200px;
 }
 .card-index{
     height:50px;
     text-align: center;
     line-height: 45px;
     font-weight: bold;
-    background-color: #43cee6;
     border: double;
 }
 
@@ -191,4 +218,94 @@ div[flip-toggle]{
     margin-right: 5px;
     display: inline-block;
     float: none;
+}
+
+.button.button-icon.input-button {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    color: #bbb;
+}
+
+.myitem{
+    left:0;
+    right:0;
+}
+
+.myitem p{
+    color: black; !important;
+}
+
+.myitem.activated{
+    border-color: #ddd;
+}
+
+.myitem .ion-ios7-star{
+   color: #eec109;
+    font-size: 30px;
+    margin-left: 15px;
+}
+
+.vis-hidden{
+    visibility: hidden;
+}
+
+.ion-android-close{
+    position: absolute;
+    left: 0;
+    top:0;
+    font-size: 20px;
+    padding: 10px;
+    color:red;
+}
+
+
+.vis-hidden-remove,.vis-hidden-add {
+    -webkit-transition:all linear 0.3s;
+    transition:all linear 0.3s;
+}
+
+.vis-hidden,.vis-hidden-add.vis-hidden-add-active {
+    opacity:0;
+}
+
+
+.vis-hidden-remove.vis-hidden-remove-active {
+    opacity:1;
+}
+
+button.button{
+    background-color: #4a87ee !important;
+    color:#ffffff !important;
+}
+
+.card{
+    width:100%;
+    display: inline-table;
+    box-shadow: 0 1px 4px #4a87ee;
+    -webkit-box-shadow: 0 1px 4px #4a87ee;
+    -moz-box-shadow: 0 1px 4px #4a87ee;
+}
+.card:not(.testcard){
+    background-color: #4a87ee !important;
+    color:#000 !important;
+}
+
+
+.move-right-add {
+    -webkit-animation:0.5s right-to-left;
+}
+
+@-webkit-keyframes right-to-left {
+    from { left:100%; }
+    to { left:0; }
+}
+
+.move-left-add {
+    -webkit-animation:0.5s left-to-right;
+}
+
+@-webkit-keyframes left-to-right {
+    from { right:100%; }
+    to { right:0; }
 }

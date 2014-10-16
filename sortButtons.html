@@ -1,0 +1,10 @@
+﻿<button ng-if="words.length!=0"
+        class="button button-positive settings-button"
+        ng-click="changeOrder()">
+    <i class="icon ion-settings"></i>
+</button >
+<button ng-if="words.length!=0"
+        class="button direction-btn"
+        ng-click="changeOrderDirection()">
+        <i class="icon" ng-class="{'ion-arrow-up-c': orderUp,'ion-arrow-down-c': !orderUp}"></i>
+</button>
