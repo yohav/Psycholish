@@ -332,3 +332,32 @@ button.button:not(.input-button){
 .testcard{
     margin:0;
 }
+
+.test-letter{
+    position:relative;
+    z-index:5;
+    padding-left: 9px;
+    top: 3px;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.item-checkbox .checkbox{
+    left:0;
+    right:0;
+    top:0;
+    padding:0;
+    margin:0;
+}
+
+.checkbox input:after, .checkbox-icon:after{
+    border: none;
+}
+
+.test-letter-special{
+    position: absolute;
+    top: 8px;
+    line-height: 1;
+    width: 72px;
+    left: 36px;
+}

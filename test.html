@@ -4,13 +4,13 @@
     </ion-nav-buttons>
     <ion-content>
         <div class="row" ng-repeat="row in rows">
-            <div class="col col-25" ng-repeat="letter in row">
+            <div class="col col-15" ng-repeat="letter in row">
                 <ul class="list">
                     <li class="item item-checkbox">
                         <label class="checkbox">
                             <input ng-click="changeLetter(letter);" type="checkbox">
                         </label>
-                        {{letter}}
+                        <span class="test-letter">{{letter}}</span>
                     </li>
                 </ul>
             </div>
@@ -23,7 +23,7 @@
                         <label class="checkbox">
                             <input ng-click="changeSpecial('personal');" type="checkbox">
                         </label>
-                        מילים אישיות
+                        <span dir="rtl" class="test-letter-special">מילים אישיות</span>
                     </li>
                 </ul>
             </div>
@@ -33,7 +33,7 @@
                         <label class="checkbox">
                             <input ng-click="changeSpecial('favorites');" type="checkbox">
                         </label>
-                        מועדפים
+                        <span dir="rtl" class="test-letter-special">מועדפים</span>
                     </li>
                 </ul>
             </div>
