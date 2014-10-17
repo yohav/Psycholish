@@ -1,10 +1,9 @@
 ﻿psycholish.controller('IntroCtrl', function($scope, $animate,$state,$timeout,wordsService,localWordService,$ionicActionSheet,$ionicSlideBoxDelegate,Read){
+    $scope.model = {};
     $scope.slideChanged = function(index) {
         $scope.slideIndex = index;
         if(index == 5){
             localWordService.SetStorage('favoriteWords');
-            localWordService.InitStorage();
-            localWordService.SetStorage('happyWords');
             localWordService.InitStorage();
         }
     };
@@ -18,6 +17,10 @@
 
     $scope.download = function(){
         wordsService.DownloadAll().then(function(){$scope.enterApp();});
+    };
+
+    $scope.clearSearch = function () {
+        $scope.model.search_intro = '';
     };
 
     $scope.changeOrder = function(){

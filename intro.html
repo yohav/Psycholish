@@ -51,11 +51,21 @@
             <div class="row">
                 <span class="col-20">חיפוש מילים</span>
                 <div id="search-box" class="item-input-inset col-80">
-                    <div class="item-input-wrapper">
-                        <i class="icon ion-ios7-search placeholder-icon"></i>
-                        <input type="search" placeholder="חיפוש"  ng-model="query">
-                        <i class="icon ion-ios7-close placeholder-icon" ng-click="query=''"></i>
-                    </div>
+                    <!--<div class="item-input-wrapper">-->
+                        <!--<i class="icon ion-ios7-search placeholder-icon"></i>-->
+                        <!--<input type="search" placeholder="חיפוש"  ng-model="query">-->
+                        <!--<i class="icon ion-ios7-close placeholder-icon" ng-click="query=''"></i>-->
+                    <!--</div>-->
+                    <input type="search"
+                           placeholder="חפש"
+                           ng-model="model.search_intro"
+                            dir="ltr"
+                            style="border: 1px solid; padding-left:3px;">
+                    <button ng-if="model.search_intro.length"
+                            class="button button-icon ion-android-close input-button"
+                            ng-click="clearSearch()"
+                            style="top: 0; right:3px">
+                    </button>
                 </div>
             </div>
 
