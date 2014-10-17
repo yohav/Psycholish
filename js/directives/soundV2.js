@@ -7,9 +7,10 @@ psycholish.directive('sound',function(Read){
         },
         link: function (scope, elem, attrs) {
             elem.bind('click', function() {
-                elem.find(scope.highlightElem).css('color','#4a87ee')
+                angular.element('body').find(scope.highlightElem).css('color','black');
+                elem.find(scope.highlightElem).css('color','#4a87ee');
                 Read.Reader(scope.text).then(function(){
-                    elem.find(scope.highlightElem).css('color','black')
+                    elem.find(scope.highlightElem).css('color','black');
                 });
             });
         }

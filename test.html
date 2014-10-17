@@ -1,67 +1,8 @@
 <ion-view title="בחינה" class="padding">
     <ion-nav-buttons>
-        <sort-buttons words="words" should-sort="true"></sort-buttons>
+        <sort-buttons words="words" should-sort="true" predicate="predicate"></sort-buttons>
     </ion-nav-buttons>
     <ion-content>
-            <div class="row">
-                <div class="col">
-                    <flip word="{{words[index].word}}" flip-toggle horizontal ng-swipe-right="change_card($event,false)" ng-swipe-left="change_card($event,true)">
-                        <flip-front class="word-word">
-                            {{words[index].word || 'no words'}}
-                        </flip-front>
-                        <flip-back dir="rtl" class="word-definition">
-                            {{words[index].definition || 'אין מילים'}}
-                        </flip-back>
-                    </flip>
-                </div>
-
-            </div>
-        <div>
-                <div class="row">
-                        <div class="col col-50 col-offset-25">
-                            <div class="card-index">
-                                {{words.length ? (index+1) : 0}} / {{words.length || '0'}}
-                            </div>
-                        </div>
-                </div>
-
-                <div class="row">
-                        <div class="col col-50">
-                            <ul class="list special-checkbox">
-                                <li class="item item-checkbox">
-                                    <label class="checkbox">
-                                        <input ng-click="changeSpecial('personal');" type="checkbox">
-                                    </label>
-    מילים אישיות
-                                </li>
-                            </ul>
-                         </div>
-                    <div class="col col-50">
-                            <ul class="list special-checkbox">
-                                <li class="item item-checkbox">
-                                    <label class="checkbox">
-                                        <input ng-click="changeSpecial('favorites');" type="checkbox">
-                                    </label>
-                                    מועדפים
-                                </li>
-                            </ul>
-                        </div>
-                        </div>
-                 </div>
-
-            <div class="row">
-                <div class="col col-33">
-                        <button ng-click="shuffle()" class="button button-calm shuffle-button">ערבוב</button>
-                </div>
-                <div class="col col-33">
-                        <button ng-click="deleteAll()" class="button button-calm reset-button">אפס</button>
-                </div>
-                <div class="col col-33">
-                    <button ng-click="chooseAll()" class="button button-calm reset-button">הכל</button>
-                </div>
-            </div>
-        </div>
-
         <div class="row" ng-repeat="row in rows">
             <div class="col col-25" ng-repeat="letter in row">
                 <ul class="list">
@@ -74,5 +15,66 @@
                 </ul>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col col-50">
+                <ul class="list special-checkbox">
+                    <li class="item item-checkbox">
+                        <label class="checkbox">
+                            <input ng-click="changeSpecial('personal');" type="checkbox">
+                        </label>
+                        מילים אישיות
+                    </li>
+                </ul>
+            </div>
+            <div class="col col-50">
+                <ul class="list special-checkbox">
+                    <li class="item item-checkbox">
+                        <label class="checkbox">
+                            <input ng-click="changeSpecial('favorites');" type="checkbox">
+                        </label>
+                        מועדפים
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <flip word="{{words[index].word}}" flip-toggle horizontal ng-swipe-right="change_card($event,false)" ng-swipe-left="change_card($event,true)">
+                    <flip-front class="word-word">
+                        {{words[index].word || 'no words'}}
+                    </flip-front>
+                    <flip-back dir="rtl" class="word-definition">
+                        {{words[index].definition || 'אין מילים'}}
+                    </flip-back>
+                </flip>
+            </div>
+        </div>
+
+        <div class="row">
+                <div class="col col-50 col-offset-25">
+                    <div class="card-index">
+                        {{words.length ? (index+1) : 0}} / {{words.length || '0'}}
+                    </div>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col col-33">
+                <button ng-click="shuffle()" class="button button-calm shuffle-button">ערבוב</button>
+            </div>
+            <div class="col col-33">
+                <button ng-click="deleteAll()" class="button button-calm reset-button">אפס</button>
+            </div>
+            <div class="col col-33">
+                <button ng-click="chooseAll()" class="button button-calm reset-button">הכל</button>
+            </div>
+        </div>
+    </div>
+
+
     </ion-content>
 </ion-view>

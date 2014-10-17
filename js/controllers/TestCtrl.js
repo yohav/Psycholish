@@ -63,7 +63,7 @@
     $scope.letters = "";
     $scope.checkedFavorites = false;
     $scope.checkedPersonal = false;
-
+    $scope.predicate = 'word';
     $scope.changeLetter = function(letter){
         letter = letter.toLowerCase();
         var index = $scope.letters.indexOf(letter);
@@ -179,6 +179,10 @@
             });
             $scope.updateIndex();
         }
+    };
+
+    $scope.sort = function(){
+        $scope.words = $filter('orderBy')($scope.words, [$scope.predicate,'word']);
     };
 
 });

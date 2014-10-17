@@ -4,13 +4,12 @@
        scope:{
            words:'=',
            shouldSort:'@',
-           predicate:'=?'
+           predicate:'='
        },
        templateUrl:'sortButtons.html',
        link:function(scope){
            scope.orderUp = false;
            scope.shouldSort = scope.shouldSort === 'true';
-           scope.predicate = scope.predicate || 'word';
 
            scope.changeOrderDirection = function(){
                scope.orderUp = ! scope.orderUp;

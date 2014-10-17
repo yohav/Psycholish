@@ -22,6 +22,9 @@
 
 }
 
+.bar .button{
+    min-height: 35px;
+}
 
 .card > .letter-item{
     text-align: center;
@@ -45,12 +48,16 @@
     font-family: 'Gan';
     color: black;
     font-size: 20px;
+}
 
+.word-definition:not(.back),.word-word:not(.front){
+    position: relative;
+    top:15px;
 }
 
 .word-word, .word-word *{
     font-family: 'Yanone';
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .toggle{
@@ -124,7 +131,7 @@ font-size: 25px;
 }
 
 .direction-btn{
-    margin-right: 5px;
+    margin-right: 10px;
 }
 /*test tab*/
 .slider {
@@ -146,9 +153,6 @@ font-size: 25px;
 }
 
 
-.flip{
-    margin-bottom:20px;
-}
 div[flip-toggle]{
     height:200px;
 }
@@ -205,11 +209,12 @@ div[flip-toggle]{
 }
 
 .add-word-button{
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .settings-button{
     margin-right: 10px;
+    margin-left: 10px;
 }
 
 .intro-icon {
@@ -223,6 +228,7 @@ div[flip-toggle]{
 .button.button-icon.input-button {
     position: absolute;
     right: 0;
+    left:auto;
     top: 5px;
     color: #bbb;
 }
@@ -242,8 +248,10 @@ div[flip-toggle]{
 
 .myitem .ion-ios7-star{
    color: #eec109;
-    font-size: 30px;
-    margin-left: 15px;
+    font-size: 20px;
+    position: absolute;
+    left: 10px;
+    top:10px;
 }
 
 .vis-hidden{
@@ -252,9 +260,9 @@ div[flip-toggle]{
 
 .ion-android-close{
     position: absolute;
-    left: 0;
-    top:0;
-    font-size: 20px;
+    right: 10px;
+    top:0px;
+    font-size: 15px;
     padding: 10px;
     color:red;
 }
@@ -274,7 +282,7 @@ div[flip-toggle]{
     opacity:1;
 }
 
-button.button{
+button.button:not(.input-button){
     background-color: #4a87ee !important;
     color:#ffffff !important;
 }
@@ -308,4 +316,8 @@ button.button{
 @-webkit-keyframes left-to-right {
     from { right:100%; }
     to { right:0; }
+}
+
+.testcard{
+    margin:0;
 }
