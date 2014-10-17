@@ -1,4 +1,4 @@
-﻿psycholish.controller('IntroCtrl', function($scope, $state,$timeout,wordsService,localWordService,$ionicActionSheet,$ionicSlideBoxDelegate){
+﻿psycholish.controller('IntroCtrl', function($scope, $animate,$state,$timeout,wordsService,localWordService,$ionicActionSheet,$ionicSlideBoxDelegate,Read){
     $scope.slideChanged = function(index) {
         $scope.slideIndex = index;
         if(index == 5){
@@ -24,8 +24,7 @@
         $ionicActionSheet.show({
             buttons: [
                 { text: 'ABC' },
-                { text: 'מועדפים' },
-                { text: 'ידע' }
+                { text: 'מועדפים' }
             ],
             titleText: 'מיין לפי',
             cancelText: 'ביטול',
@@ -33,22 +32,36 @@
         });
     };
 
-    $scope.clickCard = function(){
+    $scope.$on('flipped',function(){
+        $scope.readWord($('.front .word-container'));
+    });
+
+    $scope.change_card = function($event,right_or_left){
+        $scope.changeIndex(right_or_left);
+        var elem = angular.element($event.target);
         if($('div[flip-toggle]').hasClass('flipped')){
             $('.card').click();
         }
+        else {
+            var flip_card = elem.parents('.flip');
+            var cssClass = right_or_left ? 'move-right' : 'move-left';
+            $animate.addClass(flip_card,cssClass, function () {
+                flip_card.removeClass(cssClass);
+                $scope.readWord(elem);
+            });
+        }
     };
 
-    $scope.next = function(e){
-        e.stopPropagation();
-        $scope.clickCard();
-        $scope.changeIndex(true);
-    };
-
-    $scope.back = function(e){
-        e.stopPropagation();
-        $scope.clickCard();
-        $scope.changeIndex(false);
+    $scope.readWord = function(elem){
+        $timeout(function(){
+            var word = $scope.words[$scope.index];
+            if(word) {
+                elem.find('span').css('color','#4a87ee');
+                Read.Reader(word.word).then(function () {
+                    elem.find('span').css('color', 'black')
+                });
+            }
+        },300);
     };
 
     $scope.changeIndex = function(up){

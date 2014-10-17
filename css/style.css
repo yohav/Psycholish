@@ -96,17 +96,7 @@ font-size: 25px;
     float:left;
     margin-left: 10px;
 }
-.list .word-item{
-    left: 0;
-    right: 0;
-    background: #b2e1ff; /* Old browsers */
-    background: -moz-linear-gradient(top, #b2e1ff 0%, #66b6fc 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2e1ff), color-stop(100%,#66b6fc)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #b2e1ff 0%,#66b6fc 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #b2e1ff 0%,#66b6fc 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #b2e1ff 0%,#66b6fc 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #b2e1ff 0%,#66b6fc 100%); /* W3C */
-}
+
 
 .favorite{
     font-size: 30px;
@@ -129,6 +119,8 @@ font-size: 25px;
 .profile{
    text-align: center;
 }
+
+
 
 .direction-btn{
     margin-right: 10px;
@@ -161,7 +153,8 @@ div[flip-toggle]{
     text-align: center;
     line-height: 45px;
     font-weight: bold;
-    border: double;
+    border: 1px solid #4a87ee;
+    border-radius: 20px;
 }
 
 .shuffle-button, .reset-button{
@@ -224,6 +217,11 @@ div[flip-toggle]{
     display: inline-block;
     float: none;
 }
+
+.intro-features-list{
+    list-style: square inside none;
+}
+
 
 .button.button-icon.input-button {
     position: absolute;

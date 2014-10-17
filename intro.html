@@ -31,39 +31,13 @@
 
         <ion-slide dir="rtl">
             <h3>אפשרויות מילה</h3>
-            <p>לחץ על המילה לחשיפת הפירוש</p>
-            <div>
-                <span>הוספה/הסרה ממועדפים</span>
-                <i class="icon ion-ios7-star intro-icon"></i>
-            </div>
-            <div>
-                <span>השמעת המילה</span>
-                <img class="play-button intro-icon" src="img/play.svg"/>
-            </div>
-            <div>
-                <span>דירוג המילה - ירוק = יודע</span>
-                <i class="icon ion-happy happyicon happy intro-icon"></i>
-            </div>
-            <p>נסה עכשיו :</p>
-            <div class="list">
-                <a class="item word-item"
-                   ng-click="word.clicked=!word.clicked"
-                   style="position: absolute;">
-                    <div class="my-word">
-                        <word-buttons word="word" words="words" show-favorite="true" ></word-buttons>
-                        <p class="word-p">
-                            {{word.word}}
-                        </p>
-                        <p dir="rtl" class="definition" ng-hide="!word.clicked">
-                            {{word.definition}}
-                        </p>
-                    </div>
-                </a>
-            </div>
-        </ion-slide>
-
-        <ion-slide dir="rtl">
-            <h3>אפשריות נוספות</h3>
+            <p>
+            <ul class="intro-features-list">
+                <li>השמעת מילה ע"י לחיצה</li>
+                <li>הוספה/הסרה ממועדפים ע"י החלקה שמאלה</li>
+                <li>חשיפת/הסתרת פירוש ע"י החלקה ימינה</li>
+            </ul>
+            </p>
             <div>
                 <span style="vertical-align: top;">חשיפת כל הפירושים</span>
                 <label class="toggle toggle-calm">
@@ -125,13 +99,12 @@
             <span>(בטל כדי להמשיך למסך הבא)</span>
             <div class="row">
                 <div class="col">
-                    <flip flip-toggle horizontal ng-swipe-right="back($event)" ng-swipe-left="next($event)">
-                        <flip-front>
-                            {{words[index].word}}
-                            <word-buttons word="words[index]" words="words" show-favorite="false" class="word-buttons-in-card" ng-if="words.length"  style="left: 15px;"></word-buttons>
+                    <flip word="{{words[index].word}}" flip-toggle horizontal ng-swipe-right="change_card($event,false)" ng-swipe-left="change_card($event,true)">
+                        <flip-front class="word-word">
+                            {{words[index].word || 'no words'}}
                         </flip-front>
-                        <flip-back dir="rtl">
-                            {{words[index].definition}}
+                        <flip-back dir="rtl" class="word-definition">
+                            {{words[index].definition || 'אין מילים'}}
                         </flip-back>
                     </flip>
                 </div>
