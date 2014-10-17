@@ -268,19 +268,32 @@ div[flip-toggle]{
 }
 
 
-.vis-hidden-remove,.vis-hidden-add {
-    -webkit-transition:all linear 0.3s;
-    transition:all linear 0.3s;
+/*.vis-hidden-remove,.vis-hidden-add {*/
+    /*-webkit-transition:all linear 0.3s;*/
+    /*transition:all linear 0.3s;*/
+/*}*/
+
+/*.vis-hidden,.vis-hidden-add.vis-hidden-add-active {*/
+    /*opacity:0;*/
+/*}*/
+
+
+/*.vis-hidden-remove.vis-hidden-remove-active {*/
+    /*opacity:1;*/
+/*}*/
+
+
+
+.vis-hidden-remove{
+    -webkit-animation:0.3s showAnimate;
 }
 
-.vis-hidden,.vis-hidden-add.vis-hidden-add-active {
-    opacity:0;
+
+@-webkit-keyframes showAnimate {
+    from { opacity:0; }
+    to { opacity:1; }
 }
 
-
-.vis-hidden-remove.vis-hidden-remove-active {
-    opacity:1;
-}
 
 button.button:not(.input-button){
     background-color: #4a87ee !important;
